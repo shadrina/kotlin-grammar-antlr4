@@ -1,0 +1,22 @@
+- Wrong parsing of incomplete nested comments
+	test 
+	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/BlockCommentAtBeginningOfFile4.kt 
+	failed
+
+- Wrong parsing of neighboring comments
+	Example: string "/*comment*/text/*comment*/" is parsed as one DelimitedComment-token
+
+- Wrong parsing of strings
+	test 
+	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/stringTemplates/RawStringsWithManyQuotes.kt 
+	failed
+
+- In when-expressions NL are allowed everywhere
+	test 
+	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/NewlinesInParentheses.kt 
+	failed
+
+- Modifiers can appear after "companion"
+	test 
+	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/DefaultKeyword.kt 
+	failed
