@@ -283,7 +283,7 @@ userType
     ;
 
 simpleUserType
-    : simpleIdentifier NL* (LANGLE NL* simpleUserTypeParameter (NL* COMMA NL* simpleUserTypeParameter)* NL* RANGLE)?
+    : simpleIdentifier (NL* LANGLE NL* simpleUserTypeParameter (NL* COMMA NL* simpleUserTypeParameter)* NL* RANGLE)?
     ;
 
 simpleUserTypeParameter
