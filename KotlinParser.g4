@@ -642,9 +642,9 @@ additiveOperator
     ;
 
 multiplicativeOperator
-    : (MULT
+    : MULT
     | DIV
-    | MOD) NL*
+    | MOD
     ;
 
 asOperator
