@@ -400,6 +400,7 @@ Inside_VARARG: 'vararg' -> type(VARARG) ;
 Inside_NOINLINE: 'noinline' -> type(NOINLINE) ;
 Inside_CROSSINLINE: 'crossinline' -> type(CROSSINLINE) ;
 Inside_REIFIED: 'reified' -> type(REIFIED) ;
+Inside_OVERRIDE: 'override' -> type(OVERRIDE) ;
 Inside_IN: 'in' -> type(IN) ;
 Inside_OUT: 'out' -> type(OUT) ;
 Inside_FIELD: '@field' -> type(FIELD) ;
