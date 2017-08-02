@@ -1,4 +1,4 @@
-# kotlin_grammar
+# Kotlin ANTLR4 grammar
 Kotlin grammar written for ANTLR v4
 
 ## Issues and limitations
