@@ -4,7 +4,6 @@
  */
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Test {
 
@@ -13,7 +12,7 @@ public class Test {
         KotlinLexer lexer = new KotlinLexer(cs);
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
-        ParseTree tree = parser.kotlinFile();
+        parser.kotlinFile();
         for (int i = 0; i < tokens.size() ; i++) {
             String tokenText = tokens.get(i).getText();
             String lexerRule = lexer.getVocabulary().getDisplayName(tokens.get(i).getType());
