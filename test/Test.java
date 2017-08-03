@@ -1,3 +1,7 @@
+/**
+ * Parsing files *.kt in the project folder
+ */
+
 import java.util.Scanner;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
