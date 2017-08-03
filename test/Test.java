@@ -9,7 +9,7 @@ public class Test {
 
     public static void main(String[] args) throws Exception{
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter pathname to the project folder");
+        System.out.println("Enter a pathname to the project folder");
         String pathName = in.next();
         System.out.println();
 
