@@ -15,7 +15,7 @@ All issues are described in TODO.txt.
 
 ## Testing
 After generating lexer and parser with ANTLR4 tool you can test the grammar running **test\Test.java**. Test data can be taken from the [JetBrains's repo](https://github.com/JetBrains/kotlin/tree/master/compiler/testData/psi).   
-Some other usages of generated files are in the **example** folder.
+Some other usages of generated files are in the **examples** folder.
 
 ## Links
 * [EBNF Kotlin grammar](http://kotlinlang.org/docs/reference/grammar.html)
