@@ -16,7 +16,7 @@ public class Test {
         for (int i = 0; i < tokens.size() ; i++) {
             String tokenText = tokens.get(i).getText();
             String lexerRule = lexer.getVocabulary().getDisplayName(tokens.get(i).getType());
-            if (!lexerRule.equals("NL")) //for beauty
+            if (!lexerRule.equals("NL")) //skipping NewLine tokens (for beauty)
                 System.out.println(tokenText + "\t\t" + lexerRule);
             
             //Simple way
