@@ -15,8 +15,13 @@ public class Test {
         KotlinParser parser = new KotlinParser(tokens);
         ParseTree tree = parser.kotlinFile();
         for (int i = 0; i < tokens.size() ; i++) {
-            //System.out.println(tokens.get(i).getText());
-            System.out.println(tokens.get(i).toString());
+            String tokenText = tokens.get(i).getText();
+            String lexerRule = lexer.getVocabulary().getDisplayName(tokens.get(i).getType());
+            if (!lexerRule.equals("NL")) //for beauty
+                System.out.println(tokenText + "\t\t" + lexerRule);
+            
+            //Simple way
+            //System.out.println(tokens.get(i).toString());
         }
         System.out.println(tree.toStringTree(parser));
     }
