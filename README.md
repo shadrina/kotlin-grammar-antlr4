@@ -1,7 +1,7 @@
 # Kotlin ANTLR4 grammar
 
 ## Project description
-ANTLR4 grammar for Kotlin written only in ANTLR's special syntax. Created to facilitate the implementation of the language in other projects.  
+ANTLR4 grammar for Kotlin written only in ANTLR's special syntax. Developed to facilitate the implementation of the language in other projects.  
 
 The primary files are in the **grammars** folder:
 * **KotlinParser.g4** - parser rules
