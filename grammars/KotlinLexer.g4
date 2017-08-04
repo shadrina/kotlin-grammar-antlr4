@@ -469,11 +469,11 @@ LineStrExprStart
 mode MultiLineString ;
 
 TRIPLE_QUOTE_CLOSE
-    : '"""' -> popMode
+    : MultiLineStringQuote? '"""' -> popMode
     ;
 
-ToLineString
-    : '"' -> type(QUOTE_OPEN), pushMode(LineString)
+MultiLineStringQuote
+    : '"'+
     ;
 
 MultiLineStrRef
