@@ -15,8 +15,8 @@ parser grammar KotlinParser;
 options { tokenVocab = KotlinLexer; }
 
 file
-    : kotlinFile
-    | script
+    : (kotlinFile
+    | script) EOF
     ;
 
 kotlinFile
