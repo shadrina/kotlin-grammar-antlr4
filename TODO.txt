@@ -1,0 +1,4 @@
+- In when-expressions NL are allowed everywhere
+	test 
+	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/NewlinesInParentheses.kt 
+	failed
