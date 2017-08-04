@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Test {
-
+    
     public static void main(String[] args) throws Exception{
         Scanner in = new Scanner(System.in);
         System.out.println("Enter a pathname to the project folder");
@@ -41,9 +41,8 @@ public class Test {
         TimeUnit.MILLISECONDS.sleep(10);
         KotlinParser parser = new KotlinParser(tokens);
         TimeUnit.MILLISECONDS.sleep(10);
-        ParseTree tree = parser.kotlinFile();
+        ParseTree tree = parser.file();
         TimeUnit.MILLISECONDS.sleep(10);
         System.out.println(tree.toStringTree(parser));
-
     }
 }
