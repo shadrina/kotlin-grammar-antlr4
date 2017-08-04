@@ -12,7 +12,7 @@ public class Test {
         KotlinLexer lexer = new KotlinLexer(cs);
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
-        parser.kotlinFile();
+        parser.file();
         for (int i = 0; i < tokens.size() ; i++) {
             String tokenText = tokens.get(i).getText();
             String lexerRule = lexer.getVocabulary().getDisplayName(tokens.get(i).getType());
