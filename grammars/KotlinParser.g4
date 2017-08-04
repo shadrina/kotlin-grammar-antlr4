@@ -147,7 +147,8 @@ memberObjectDeclaration
     ;
 
 companionObject
-    : COMPANION NL* OBJECT NL* simpleIdentifier? delegationSpecifiers? classBody?
+    : COMPANION NL* (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)*
+    OBJECT NL* simpleIdentifier? delegationSpecifiers? classBody?
     ;
 
 memberPropertyDeclaration
