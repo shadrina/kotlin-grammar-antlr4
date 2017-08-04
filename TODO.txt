@@ -12,8 +12,3 @@
 	test 
 	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/NewlinesInParentheses.kt 
 	failed
-
-- Modifiers can appear after "companion"
-	test 
-	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/DefaultKeyword.kt 
-	failed
