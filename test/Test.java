@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Test {
     
@@ -41,8 +40,8 @@ public class Test {
         TimeUnit.MILLISECONDS.sleep(10);
         KotlinParser parser = new KotlinParser(tokens);
         TimeUnit.MILLISECONDS.sleep(10);
-        ParseTree tree = parser.file();
+        parser.file();
         TimeUnit.MILLISECONDS.sleep(10);
-        System.out.println(tree.toStringTree(parser));
+        System.out.println("Result: " + parser.getNumberOfSyntaxErrors() + " syntax errors");
     }
 }
