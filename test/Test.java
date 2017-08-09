@@ -33,15 +33,15 @@ public class Test {
 
     private static void parse(String fileName) throws Exception{
         CharStream cs = new ANTLRFileStream(fileName);
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(15);
         KotlinLexer lexer = new KotlinLexer(cs);
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(15);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(15);
         KotlinParser parser = new KotlinParser(tokens);
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(15);
         parser.file();
-        TimeUnit.MILLISECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(15);
         System.out.println("Result: " + parser.getNumberOfSyntaxErrors() + " syntax errors");
     }
 }
