@@ -439,8 +439,7 @@ LineStrEscapedChar
     | UniCharacterLiteral
     ;
 
-LineStrExprStart
-    : '${' -> pushMode(StringExpression)
+LineStrExprStart    : '${' -> pushMode(StringExpression)
     ;
 
 
@@ -477,7 +476,7 @@ mode StringExpression ;
 
 StrExpr_RCURL: RCURL -> popMode, type(RCURL) ;
 
-StrExpr_DelimitedComment: DelimitedComment -> skip ;
+StrExpr_Comment: (DelimitedComment | LineComment) -> channel(HIDDEN) ;
 
 StrExpr_LPAREN: LPAREN -> pushMode(Inside), type(LPAREN) ;
 StrExpr_LSQUARE: LSQUARE -> pushMode(Inside), type(LSQUARE) ;
