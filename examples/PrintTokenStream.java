@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.*;
 public class PrintTokenStream {
 
     public static void main(String[] args) throws Exception{
-        CharStream cs = new ANTLRFileStream("input.txt");
+        CharStream cs = new ANTLRFileStream("test.kt");
         KotlinLexer lexer = new KotlinLexer(cs);
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
