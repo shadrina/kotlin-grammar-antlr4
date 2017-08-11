@@ -1,10 +1,11 @@
 /**
  * An example of using generated files
- * Printing out the parse tree in hierarchical format
+ * Printing out the parse tree
  */
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
+import java.util.Objects;
 
 public class Serializer {
 
@@ -21,7 +22,8 @@ public class Serializer {
 
     private static void printTree(ParseTree tree, int indentation, KotlinLexer lexer) throws Exception{
         printIndentation(indentation);
-        if (tree.getChildCount() == 0) {
+        String treeClassName = tree.getClass().getSimpleName();
+        if (Objects.equals(treeClassName, "TerminalNodeImpl")) {
             TerminalNodeImpl node = (TerminalNodeImpl)tree;
             printNode(node, lexer);
         }
@@ -44,7 +46,7 @@ public class Serializer {
     private static void printNode(TerminalNodeImpl node, KotlinLexer lexer) throws Exception{
         String nodeType = lexer.getVocabulary().getSymbolicName(getNodeTypeNumber(node));
         String nodeText = node.getText();
-        if (nodeType == "NL") nodeText = "\\n";
+        if (Objects.equals(nodeType, "NL")) nodeText = "\\n";
         System.out.println("PsiElement" + "(" + nodeType + ")" + "('" + nodeText + "')");
     }
 
