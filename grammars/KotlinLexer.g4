@@ -331,8 +331,6 @@ fragment Letter
 
 mode Inside ;
 
-Inside_DelimitedComment: DelimitedComment -> skip ;
-
 RPAREN: ')' -> popMode ;
 RSQUARE: ']' -> popMode;
 
