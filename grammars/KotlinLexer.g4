@@ -42,9 +42,9 @@ RESERVED: '...' ;
 DOT: '.' ;
 COMMA: ',' ;
 LPAREN: '(' -> pushMode(Inside) ;
-LSQUARE: '[' -> pushMode(Inside);
-LCURL: '{' -> pushMode(DEFAULT_MODE) ;
-RCURL: '}' -> popMode ;
+LSQUARE: '[' -> pushMode(Inside) ;
+LCURL: '{' ;
+RCURL: '}' ;
 MULT: '*' ;
 MOD: '%' ;
 DIV: '/' ;
@@ -173,17 +173,17 @@ QUOTE_OPEN: '"' -> pushMode(LineString) ;
 TRIPLE_QUOTE_OPEN: '"""' -> pushMode(MultiLineString) ;
 
 RealLiteral
-    : FloatLiteral 
+    : FloatLiteral
     | DoubleLiteral
     ;
 
 FloatLiteral
     : (DoubleLiteral | IntegerLiteral) [fF]
-    ; 
+    ;
 
 DoubleLiteral
-    : '-'? 
-    ( (DecDigitNoZero DecDigit*)? '.' 
+    : '-'?
+    ( (DecDigitNoZero DecDigit*)? '.'
      | (DecDigitNoZero (DecDigit | '_')* DecDigit)? '.')
     ( DecDigit+
      | DecDigit (DecDigit | '_')+ DecDigit
@@ -191,15 +191,15 @@ DoubleLiteral
      | DecDigit+ [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit)
-    ;                                      
+    ;
 
 LongLiteral
     : (IntegerLiteral | HexLiteral | BinLiteral) 'L'
-    ;                         
+    ;
 
 IntegerLiteral
     : '-'?
-    ('0' 
+    ('0'
     | DecDigitNoZero DecDigit*
     | DecDigitNoZero (DecDigit | '_')+ DecDigit
     | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit+
@@ -269,16 +269,16 @@ BinLiteral
     ;
 
 fragment BinDigit
-    : [01] 
+    : [01]
     ;
 
-BooleanLiteral 
-    : 'true' 
-    | 'false' 
+BooleanLiteral
+    : 'true'
+    | 'false'
     ;
 
 NullLiteral
-    : 'null' 
+    : 'null'
     ;
 
 Identifier
@@ -287,12 +287,12 @@ Identifier
     ;
 
 fragment RegularIdentifier
-    : (Letter | '_') (Letter | '_' | IntegerLiteral)*
+    : (Letter | '_') (Letter | '_' | DecDigit)*
     ;
 
 fragment EscapedIdentifier
     : '\\' ('t' | 'b' | 'r' | 'n' | '\'' | '"' | '\\' | '$')
-    ;                         
+    ;
 
 LabelReference
     : '@' Identifier
@@ -304,10 +304,10 @@ LabelDefinition
 
 FieldIdentifier
     : '$' Identifier
-    ;   
+    ;
 
 CharacterLiteral
-    : '\'' (EscapeSeq | .) '\'' 
+    : '\'' (EscapeSeq | .) '\''
     ;
 
 fragment EscapeSeq
@@ -331,115 +331,95 @@ fragment Letter
 
 mode Inside ;
 
-Inside_DelimitedComment
-    : '/*' (DelimitedComment| .)*? '*/'
-      -> skip
-    ;
-
-Inside_LineComment
-    : '//' ~[\u000A\u000D]*
-      -> skip
-    ;
+Inside_DelimitedComment: DelimitedComment -> skip ;
 
 RPAREN: ')' -> popMode ;
 RSQUARE: ']' -> popMode;
 
-Inside_LPAREN: '(' -> pushMode(Inside), type(LPAREN) ;
-Inside_LSQUARE: '[' -> pushMode(Inside), type(LSQUARE) ;
+Inside_LPAREN: LPAREN -> pushMode(Inside), type(LPAREN) ;
+Inside_LSQUARE: LSQUARE -> pushMode(Inside), type(LSQUARE) ;
 
-Inside_LCURL: '{' -> type(LCURL) ;
-Inside_RCURL: '}' -> type(RCURL) ;
-Inside_DOT: '.' -> type(DOT) ;
-Inside_COMMA: ','  -> type(COMMA) ;
-Inside_MULT: '*' -> type(MULT) ;
-Inside_MOD: '%'  -> type(MOD) ;
-Inside_DIV: '/' -> type(DIV) ;
-Inside_ADD: '+'  -> type(ADD) ;
-Inside_SUB: '-'  -> type(SUB) ;
-Inside_INCR: '++'  -> type(INCR) ;
-Inside_DECR: '--'  -> type(DECR) ;
-Inside_CONJ: '&&'  -> type(CONJ) ;
-Inside_DISJ: '||'  -> type(DISJ) ;
-Inside_EXCL: '!'  -> type(EXCL) ;
-Inside_COLON: ':'  -> type(COLON) ;
-Inside_SEMICOLON: ';'  -> type(SEMICOLON) ;
-Inside_ASSIGNMENT: '='  -> type(ASSIGNMENT) ;
-Inside_ADD_ASSIGNMENT: '+='  -> type(ADD_ASSIGNMENT) ;
-Inside_SUB_ASSIGNMENT: '-='  -> type(SUB_ASSIGNMENT) ;
-Inside_MULT_ASSIGNMENT: '*='  -> type(MULT_ASSIGNMENT) ;
-Inside_DIV_ASSIGNMENT: '/='  -> type(DIV_ASSIGNMENT) ;
-Inside_MOD_ASSIGNMENT: '%='  -> type(MOD_ASSIGNMENT) ;
-Inside_ARROW: '->'  -> type(ARROW) ;
-Inside_DOUBLE_ARROW: '=>'  -> type(DOUBLE_ARROW) ;
-Inside_RANGE: '..'  -> type(RANGE) ;
-Inside_COLONCOLON: '::'  -> type(COLONCOLON) ;
-Inside_Q_COLONCOLON: '?::' -> type(Q_COLONCOLON) ;
-Inside_DOUBLE_SEMICOLON: ';;'  -> type(DOUBLE_SEMICOLON) ;
-Inside_HASH: '#'  -> type(HASH) ;
-Inside_AT: '@'  -> type(AT) ;
-Inside_QUEST: '?'  -> type(QUEST) ;
-Inside_ELVIS: '?:'  -> type(ELVIS) ;
-Inside_LANGLE: '<'  -> type(LANGLE) ;
-Inside_RANGLE: '>'  -> type(RANGLE) ;
-Inside_LE: '<='  -> type(LE) ;
-Inside_GE: '>='  -> type(GE) ;
-Inside_EXCL_EQ: '!='  -> type(EXCL_EQ) ;
-Inside_EXCL_EQEQ: '!=='  -> type(EXCL_EQEQ) ;
-Inside_NOT_IS: '!is' (NL | WS) -> type(NOT_IS) ;
-Inside_NOT_IN: '!in' (NL | WS) -> type(NOT_IN) ;
-Inside_AS_SAFE: 'as?'  -> type(AS_SAFE) ;
-Inside_EQEQ: '=='  -> type(EQEQ) ;
-Inside_EQEQEQ: '==='  -> type(EQEQEQ) ;
-Inside_SINGLE_QUOTE: '\''  -> type(SINGLE_QUOTE) ;
-Inside_QUOTE_OPEN: '"' -> pushMode(LineString), type(QUOTE_OPEN) ;
-Inside_TRIPLE_QUOTE_OPEN: '"""' -> pushMode(MultiLineString), type(TRIPLE_QUOTE_OPEN) ;
+Inside_LCURL: LCURL -> type(LCURL) ;
+Inside_RCURL: RCURL -> type(RCURL) ;
+Inside_DOT: DOT -> type(DOT) ;
+Inside_COMMA: COMMA  -> type(COMMA) ;
+Inside_MULT: MULT -> type(MULT) ;
+Inside_MOD: MOD  -> type(MOD) ;
+Inside_DIV: DIV -> type(DIV) ;
+Inside_ADD: ADD  -> type(ADD) ;
+Inside_SUB: SUB  -> type(SUB) ;
+Inside_INCR: INCR  -> type(INCR) ;
+Inside_DECR: DECR  -> type(DECR) ;
+Inside_CONJ: CONJ  -> type(CONJ) ;
+Inside_DISJ: DISJ  -> type(DISJ) ;
+Inside_EXCL: EXCL  -> type(EXCL) ;
+Inside_COLON: COLON  -> type(COLON) ;
+Inside_SEMICOLON: SEMICOLON  -> type(SEMICOLON) ;
+Inside_ASSIGNMENT: ASSIGNMENT  -> type(ASSIGNMENT) ;
+Inside_ADD_ASSIGNMENT: ADD_ASSIGNMENT  -> type(ADD_ASSIGNMENT) ;
+Inside_SUB_ASSIGNMENT: SUB_ASSIGNMENT  -> type(SUB_ASSIGNMENT) ;
+Inside_MULT_ASSIGNMENT: MULT_ASSIGNMENT  -> type(MULT_ASSIGNMENT) ;
+Inside_DIV_ASSIGNMENT: DIV_ASSIGNMENT  -> type(DIV_ASSIGNMENT) ;
+Inside_MOD_ASSIGNMENT: MOD_ASSIGNMENT  -> type(MOD_ASSIGNMENT) ;
+Inside_ARROW: ARROW  -> type(ARROW) ;
+Inside_DOUBLE_ARROW: DOUBLE_ARROW  -> type(DOUBLE_ARROW) ;
+Inside_RANGE: RANGE  -> type(RANGE) ;
+Inside_COLONCOLON: COLONCOLON  -> type(COLONCOLON) ;
+Inside_Q_COLONCOLON: Q_COLONCOLON -> type(Q_COLONCOLON) ;
+Inside_DOUBLE_SEMICOLON: DOUBLE_SEMICOLON  -> type(DOUBLE_SEMICOLON) ;
+Inside_HASH: HASH  -> type(HASH) ;
+Inside_AT: AT  -> type(AT) ;
+Inside_QUEST: QUEST  -> type(QUEST) ;
+Inside_ELVIS: ELVIS  -> type(ELVIS) ;
+Inside_LANGLE: LANGLE  -> type(LANGLE) ;
+Inside_RANGLE: RANGLE  -> type(RANGLE) ;
+Inside_LE: LE  -> type(LE) ;
+Inside_GE: GE  -> type(GE) ;
+Inside_EXCL_EQ: EXCL_EQ  -> type(EXCL_EQ) ;
+Inside_EXCL_EQEQ: EXCL_EQEQ  -> type(EXCL_EQEQ) ;
+Inside_NOT_IS: NOT_IS -> type(NOT_IS) ;
+Inside_NOT_IN: NOT_IN -> type(NOT_IN) ;
+Inside_AS_SAFE: AS_SAFE  -> type(AS_SAFE) ;
+Inside_EQEQ: EQEQ  -> type(EQEQ) ;
+Inside_EQEQEQ: EQEQEQ  -> type(EQEQEQ) ;
+Inside_SINGLE_QUOTE: SINGLE_QUOTE  -> type(SINGLE_QUOTE) ;
+Inside_QUOTE_OPEN: QUOTE_OPEN -> pushMode(LineString), type(QUOTE_OPEN) ;
+Inside_TRIPLE_QUOTE_OPEN: TRIPLE_QUOTE_OPEN -> pushMode(MultiLineString), type(TRIPLE_QUOTE_OPEN) ;
 
-Inside_VAL: 'val' -> type(VAL) ;
-Inside_VAR: 'var' ->type(VAR) ;
-Inside_VARARG: 'vararg' -> type(VARARG) ;
-Inside_NOINLINE: 'noinline' -> type(NOINLINE) ;
-Inside_CROSSINLINE: 'crossinline' -> type(CROSSINLINE) ;
-Inside_REIFIED: 'reified' -> type(REIFIED) ;
-Inside_OVERRIDE: 'override' -> type(OVERRIDE) ;
-Inside_IN: 'in' -> type(IN) ;
-Inside_OUT: 'out' -> type(OUT) ;
-Inside_FIELD: '@field' -> type(FIELD) ;
-Inside_FILE: '@file' -> type(FILE) ;
-Inside_PROPERTY: '@property' -> type(PROPERTY) ;
-Inside_GET: '@get' -> type(GET) ;
-Inside_SET: '@set' -> type(SET) ;
-Inside_RECEIVER: '@receiver' -> type(RECEIVER) ;
-Inside_PARAM: '@param' -> type(PARAM) ;
-Inside_SETPARAM: '@setparam' -> type(SETPARAM) ;
-Inside_DELEGATE: '@delegate' -> type(DELEGATE) ;
+Inside_VAL: VAL -> type(VAL) ;
+Inside_VAR: VAR ->type(VAR) ;
+Inside_VARARG: VARARG -> type(VARARG) ;
+Inside_NOINLINE: NOINLINE -> type(NOINLINE) ;
+Inside_CROSSINLINE: CROSSINLINE -> type(CROSSINLINE) ;
+Inside_REIFIED: REIFIED -> type(REIFIED) ;
+Inside_OVERRIDE: OVERRIDE -> type(OVERRIDE) ;
+Inside_IN: IN -> type(IN) ;
+Inside_OUT: OUT -> type(OUT) ;
+Inside_FIELD: FIELD -> type(FIELD) ;
+Inside_FILE: FILE -> type(FILE) ;
+Inside_PROPERTY: PROPERTY -> type(PROPERTY) ;
+Inside_GET: GET -> type(GET) ;
+Inside_SET: SET -> type(SET) ;
+Inside_RECEIVER: RECEIVER -> type(RECEIVER) ;
+Inside_PARAM: PARAM -> type(PARAM) ;
+Inside_SETPARAM: SETPARAM -> type(SETPARAM) ;
+Inside_DELEGATE: DELEGATE -> type(DELEGATE) ;
 
-Inside_Literal
-    : BooleanLiteral
-    | IntegerLiteral
-    | HexLiteral
-    | BinLiteral
-    | CharacterLiteral
-    | RealLiteral
-    | NullLiteral
-    | LongLiteral
-    ;
+Inside_BooleanLiteral: BooleanLiteral -> type(BooleanLiteral) ;
+Inside_IntegerLiteral: IntegerLiteral -> type(IntegerLiteral) ;
+Inside_HexLiteral: HexLiteral -> type(HexLiteral) ;
+Inside_BinLiteral: BinLiteral -> type(BinLiteral) ;
+Inside_CharacterLiteral: CharacterLiteral -> type(CharacterLiteral) ;
+Inside_RealLiteral: RealLiteral -> type(RealLiteral) ;
+Inside_NullLiteral: NullLiteral -> type(NullLiteral) ;
+Inside_LongLiteral: LongLiteral -> type(LongLiteral) ;
 
-Inside_Identifier
-    : ((RegularIdentifier | EscapedIdentifier)
-    | '`' ~('`')+ '`' ) -> type(Identifier)
-    ;
-
-Inside_LabelReference
-    : '@' Identifier -> type(LabelReference)
-    ;
-
-Inside_LabelDefinition
-    : Identifier '@' -> type(LabelDefinition)
-    ;
-
+Inside_Identifier: Identifier -> type(Identifier) ;
+Inside_LabelReference: LabelReference -> type(LabelReference) ;
+Inside_LabelDefinition: LabelDefinition -> type(LabelDefinition) ;
 Inside_Comment: (LineComment | DelimitedComment) -> channel(HIDDEN) ;
-Inside_WS: [\u0020\u0009\u000C] -> skip ;
-Inside_NL: ('\u000A' | '\u000D' '\u000A') -> skip ;
+Inside_WS: WS -> skip ;
+Inside_NL: NL -> skip ;
 
 
 mode LineString ;
@@ -462,7 +442,7 @@ LineStrEscapedChar
     ;
 
 LineStrExprStart
-    : '${' -> pushMode(DEFAULT_MODE)
+    : '${' -> pushMode(StringExpression)
     ;
 
 
@@ -489,7 +469,82 @@ MultiLineStrEscapedChar
     ;
 
 MultiLineStrExprStart
-    : '${' -> pushMode(DEFAULT_MODE)
+    : '${' -> pushMode(StringExpression)
     ;
 
-MultiLineNL: ('\u000A' | '\u000D' '\u000A') -> skip ;
+MultiLineNL: NL -> skip ;
+
+
+mode StringExpression ;
+
+StrExpr_RCURL: RCURL -> popMode, type(RCURL) ;
+
+StrExpr_DelimitedComment: DelimitedComment -> skip ;
+
+StrExpr_LPAREN: LPAREN -> pushMode(Inside), type(LPAREN) ;
+StrExpr_LSQUARE: LSQUARE -> pushMode(Inside), type(LSQUARE) ;
+
+StrExpr_LCURL: LCURL -> type(LCURL) ;
+StrExpr_DOT: DOT -> type(DOT) ;
+StrExpr_COMMA: COMMA  -> type(COMMA) ;
+StrExpr_MULT: MULT -> type(MULT) ;
+StrExpr_MOD: MOD  -> type(MOD) ;
+StrExpr_DIV: DIV -> type(DIV) ;
+StrExpr_ADD: ADD  -> type(ADD) ;
+StrExpr_SUB: SUB  -> type(SUB) ;
+StrExpr_INCR: INCR  -> type(INCR) ;
+StrExpr_DECR: DECR  -> type(DECR) ;
+StrExpr_CONJ: CONJ  -> type(CONJ) ;
+StrExpr_DISJ: DISJ  -> type(DISJ) ;
+StrExpr_EXCL: EXCL  -> type(EXCL) ;
+StrExpr_COLON: COLON  -> type(COLON) ;
+StrExpr_SEMICOLON: SEMICOLON  -> type(SEMICOLON) ;
+StrExpr_ASSIGNMENT: ASSIGNMENT  -> type(ASSIGNMENT) ;
+StrExpr_ADD_ASSIGNMENT: ADD_ASSIGNMENT  -> type(ADD_ASSIGNMENT) ;
+StrExpr_SUB_ASSIGNMENT: SUB_ASSIGNMENT  -> type(SUB_ASSIGNMENT) ;
+StrExpr_MULT_ASSIGNMENT: MULT_ASSIGNMENT  -> type(MULT_ASSIGNMENT) ;
+StrExpr_DIV_ASSIGNMENT: DIV_ASSIGNMENT  -> type(DIV_ASSIGNMENT) ;
+StrExpr_MOD_ASSIGNMENT: MOD_ASSIGNMENT  -> type(MOD_ASSIGNMENT) ;
+StrExpr_ARROW: ARROW  -> type(ARROW) ;
+StrExpr_DOUBLE_ARROW: DOUBLE_ARROW  -> type(DOUBLE_ARROW) ;
+StrExpr_RANGE: RANGE  -> type(RANGE) ;
+StrExpr_COLONCOLON: COLONCOLON  -> type(COLONCOLON) ;
+StrExpr_Q_COLONCOLON: Q_COLONCOLON -> type(Q_COLONCOLON) ;
+StrExpr_DOUBLE_SEMICOLON: DOUBLE_SEMICOLON  -> type(DOUBLE_SEMICOLON) ;
+StrExpr_HASH: HASH  -> type(HASH) ;
+StrExpr_AT: AT  -> type(AT) ;
+StrExpr_QUEST: QUEST  -> type(QUEST) ;
+StrExpr_ELVIS: ELVIS  -> type(ELVIS) ;
+StrExpr_LANGLE: LANGLE  -> type(LANGLE) ;
+StrExpr_RANGLE: RANGLE  -> type(RANGLE) ;
+StrExpr_LE: LE  -> type(LE) ;
+StrExpr_GE: GE  -> type(GE) ;
+StrExpr_EXCL_EQ: EXCL_EQ  -> type(EXCL_EQ) ;
+StrExpr_EXCL_EQEQ: EXCL_EQEQ  -> type(EXCL_EQEQ) ;
+StrExpr_AS: AS -> type(IS) ;
+StrExpr_IS: IS -> type(IN) ;
+StrExpr_IN: IN ;
+StrExpr_NOT_IS: NOT_IS -> type(NOT_IS) ;
+StrExpr_NOT_IN: NOT_IN -> type(NOT_IN) ;
+StrExpr_AS_SAFE: AS_SAFE  -> type(AS_SAFE) ;
+StrExpr_EQEQ: EQEQ  -> type(EQEQ) ;
+StrExpr_EQEQEQ: EQEQEQ  -> type(EQEQEQ) ;
+StrExpr_SINGLE_QUOTE: SINGLE_QUOTE  -> type(SINGLE_QUOTE) ;
+StrExpr_QUOTE_OPEN: QUOTE_OPEN -> pushMode(LineString), type(QUOTE_OPEN) ;
+StrExpr_TRIPLE_QUOTE_OPEN: TRIPLE_QUOTE_OPEN -> pushMode(MultiLineString), type(TRIPLE_QUOTE_OPEN) ;
+
+StrExpr_BooleanLiteral: BooleanLiteral -> type(BooleanLiteral) ;
+StrExpr_IntegerLiteral: IntegerLiteral -> type(IntegerLiteral) ;
+StrExpr_HexLiteral: HexLiteral -> type(HexLiteral) ;
+StrExpr_BinLiteral: BinLiteral -> type(BinLiteral) ;
+StrExpr_CharacterLiteral: CharacterLiteral -> type(CharacterLiteral) ;
+StrExpr_RealLiteral: RealLiteral -> type(RealLiteral) ;
+StrExpr_NullLiteral: NullLiteral -> type(NullLiteral) ;
+StrExpr_LongLiteral: LongLiteral -> type(LongLiteral) ;
+
+StrExpr_Identifier: Identifier -> type(Identifier) ;
+StrExpr_LabelReference: LabelReference -> type(LabelReference) ;
+StrExpr_LabelDefinition: LabelDefinition -> type(LabelDefinition) ;
+StrExpr_Comment: (LineComment | DelimitedComment) -> channel(HIDDEN) ;
+StrExpr_WS: WS -> skip ;
+StrExpr_NL: NL -> skip ;
