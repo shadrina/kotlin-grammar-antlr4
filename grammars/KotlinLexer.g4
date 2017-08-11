@@ -410,6 +410,7 @@ Inside_BinLiteral: BinLiteral -> type(BinLiteral) ;
 Inside_CharacterLiteral: CharacterLiteral -> type(CharacterLiteral) ;
 Inside_RealLiteral: RealLiteral -> type(RealLiteral) ;
 Inside_NullLiteral: NullLiteral -> type(NullLiteral) ;
+
 Inside_LongLiteral: LongLiteral -> type(LongLiteral) ;
 
 Inside_Identifier: Identifier -> type(Identifier) ;
@@ -439,7 +440,8 @@ LineStrEscapedChar
     | UniCharacterLiteral
     ;
 
-LineStrExprStart    : '${' -> pushMode(StringExpression)
+LineStrExprStart    
+    : '${' -> pushMode(StringExpression)
     ;
 
 
