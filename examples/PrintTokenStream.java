@@ -5,7 +5,7 @@
 
 import org.antlr.v4.runtime.*;
 
-public class Test {
+public class PrintTokenStream {
 
     public static void main(String[] args) throws Exception{
         CharStream cs = new ANTLRFileStream("input.txt");
