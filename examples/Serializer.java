@@ -29,6 +29,10 @@ public class Serializer {
         }
         else {
             printRule(tree);
+            if (tree.getChildCount() == 0) {
+                printIndentation(indentation);
+                System.out.println("  <empty list>");
+            }
             for (int i = 0; i < tree.getChildCount(); i++) {
                 printTree(tree.getChild(i), indentation + 1, lexer);
             }
