@@ -469,7 +469,6 @@ literalConstant
     | RealLiteral
     | NullLiteral
     | LongLiteral
-    | Inside_Literal
     ;
 
 stringLiteral
