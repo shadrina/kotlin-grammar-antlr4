@@ -22,6 +22,5 @@ public class PrintTokenStream {
             //Simple way
             //System.out.println(tokens.get(i).toString());
         }
-        System.out.println(tree.toStringTree(parser));
     }
 }
