@@ -1,6 +1,5 @@
 /**
- * Deserializer of PSI
- * Creating PSI tree to compare with ANTLR tree
+ * Deserializer of kotlin PSI
  */
 
 import java.util.List;
@@ -32,21 +31,21 @@ public class Deserializer {
                 line = line.replaceFirst(INDENT, "");
                 currIndent++;
             }
-            
+
             newChild.setRuleName(getRuleName(line));
             ParserToken token = new ParserToken();
             token.setTokenType(getTokenType(line));
             token.setTokenText(getTokenText(line));
             newChild.setToken(token);
 
-            int indent_difference = currIndent - prevIndent;
-            if (indent_difference == 1) {
+            int indentDifference = currIndent - prevIndent;
+            if (indentDifference == 1) {
                 tree.addChild(newChild);
                 newChild.setParent(tree);
                 tree = tree.getLastChild();
             }
-            if (indent_difference <= 0) {
-                for (int j = indent_difference; j <= 0; j++) {
+            if (indentDifference <= 0) {
+                for (int j = indentDifference; j <= 0; j++) {
                     tree = tree.getParent();
                 }
                 tree.addChild(newChild);
@@ -80,6 +79,5 @@ public class Deserializer {
         if (line.startsWith("PsiWhiteSpace")) return info[1].replace(")", "");
         return info[2].replace(")", "");
     }
-
 }
 
