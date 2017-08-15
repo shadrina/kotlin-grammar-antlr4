@@ -4,14 +4,16 @@
  */
 
 import java.util.List;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Deserializer {
 
     public static final String INDENT = "  ";
 
     public static void main(String[] args) throws Exception {
-        ParserTree tree = createTree("test.txt");
+        createTree("test.txt");
     }
 
     private static ParserTree createTree(String fileName) throws Exception {
@@ -72,13 +74,12 @@ public class Deserializer {
     }
 
     private static String getTokenText(String line) {
-        line = line.replace("'", "");
+        line = line.replace(")", "");
         String[] info = line.split("[(]");
+        if (line.startsWith("PsiWhiteSpace")) return info[1];
         if (info.length == 1) return "";
-        if (info[1] == "LBRACE") return "(";
-        if (info[1] == "RBRACE") return ")";
-        if (line.startsWith("PsiWhiteSpace")) return info[1].replace(")", "");
-        return info[2].replace(")", "");
+        if (Objects.equals(info[1], "LPAR")) return "(";
+        if (Objects.equals(info[1], "RPAR")) return ")";
+        return info[2];
     }
 }
-
