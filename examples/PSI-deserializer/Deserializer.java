@@ -11,7 +11,7 @@ public class Deserializer {
     public static final String INDENT = "  ";
 
     public static void main(String[] args) throws Exception {
-        createTree("test.txt");
+        ParserTree tree = createTree("test.txt");
     }
 
     private static ParserTree createTree(String fileName) throws Exception {
