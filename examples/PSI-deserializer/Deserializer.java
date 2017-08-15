@@ -1,6 +1,6 @@
 /**
  * Deserializer of kotlin PSI
- * Creating PSI tree to compare with ANTLR tree 
+ * Creating PSI tree to compare with ANTLR tree
  */
 
 import java.util.List;
@@ -42,19 +42,12 @@ public class Deserializer {
             newChild.setToken(token);
 
             int indentDifference = currIndent - prevIndent;
-            if (indentDifference == 1) {
-                tree.addChild(newChild);
-                newChild.setParent(tree);
-                tree = tree.getLastChild();
-            }
-            if (indentDifference <= 0) {
-                for (int j = indentDifference; j <= 0; j++) {
+            if (indentDifference <= 0)
+                for (int j = indentDifference; j <= 0; j++)
                     tree = tree.getParent();
-                }
-                tree.addChild(newChild);
-                newChild.setParent(tree);
-                tree = tree.getLastChild();
-            }
+            tree.addChild(newChild);
+            newChild.setParent(tree);
+            tree = tree.getLastChild();
             prevIndent = currIndent;
         }
         while (tree.getParent() != null) tree = tree.getParent();
