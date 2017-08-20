@@ -14,33 +14,24 @@ parser grammar KotlinParser;
 
 options { tokenVocab = KotlinLexer; }
 
-file
-    : (kotlinFile
-    | script) EOF
-    ;
-
 kotlinFile
-    : preamble topLevelObject*
+    : NL* fileAnnotation* packageHeader* importHeader* topLevelObject* EOF
     ;
 
 script
-    : preamble (expression semi?)*
-    ;
-
-preamble
-    : NL* (fileAnnotation semi?)* (packageHeader semi?)* (importHeader semi?)*
+    : NL* fileAnnotation* packageHeader* importHeader* (expression semi?)* EOF
     ;
 
 fileAnnotation
-    : FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation)
+    : FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation) semi?
     ;
 
 packageHeader
-    : PACKAGE identifier
+    : PACKAGE identifier semi?
     ;                                                           
 
 importHeader
-    : IMPORT identifier (DOT MULT | AS simpleIdentifier)?
+    : IMPORT identifier (DOT MULT | AS simpleIdentifier)? semi?
     ;
 
 topLevelObject
@@ -783,3 +774,4 @@ simpleIdentifier
     ;
 
 semi: NL+ | SEMICOLON | SEMICOLON NL+;
+
