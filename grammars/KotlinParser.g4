@@ -28,7 +28,7 @@ fileAnnotation
 
 packageHeader
     : PACKAGE identifier semi?
-    ;                                                           
+    ;
 
 importHeader
     : IMPORT identifier (DOT MULT | AS simpleIdentifier)? semi?
@@ -75,12 +75,8 @@ enumClassDeclaration
     ;
 
 primaryConstructor
-    : ((annotations | visibilityModifier | PROTECTED NL*)* CONSTRUCTOR NL*)? LPAREN classParameters? RPAREN
+    : ((annotations | visibilityModifier | PROTECTED NL*)* CONSTRUCTOR NL*)? LPAREN (classParameter (COMMA classParameter)*)? RPAREN
     ;
-
-classParameters
-    : classParameter (COMMA classParameter)*
-;
 
 classParameter
     : (annotations | parameterModifier | OVERRIDE NL*)* (VAL | VAR)? parameter (ASSIGNMENT expression)?
@@ -150,7 +146,7 @@ memberPropertyDeclaration
 anonymousInitializer
     : INIT NL* block
     ;
-    
+
 secondaryConstructor
     : (annotations | visibilityModifier | PROTECTED NL*)*
     CONSTRUCTOR NL* functionValueParameters (NL* COLON NL* constructorDelegationCall)? NL* block
@@ -189,7 +185,7 @@ enumEntryBodyMembers
 functionDeclaration
     : FUN NL* typeParameters? NL* (type NL* DOT)? NL* identifier? NL*
     functionValueParameters NL* (COLON NL* type)? NL* typeConstraints? NL* functionBody?
-    ;   
+    ;
 
 functionValueParameters
     : LPAREN (functionValueParameter (COMMA functionValueParameter)*)? RPAREN
@@ -204,7 +200,7 @@ parameter
     ;
 
 functionBody
-    : block 
+    : block
     | ASSIGNMENT NL* (expression | assignment)
     ;
 
@@ -221,7 +217,7 @@ propertyDeclaration
 multiVariableDeclaration
     : LPAREN variableDeclaration (COMMA variableDeclaration)* RPAREN
     ;
- 
+
 variableDeclaration
     : annotations* simpleIdentifier (COLON type)?
     ;
@@ -312,7 +308,7 @@ declaration
     : localClassDeclaration
     | localFunctionDeclaration
     | localPropertyDeclaration
-    ;  
+    ;
 
 localClassDeclaration
     : (labelDefinition | annotations | ABSTRACT NL* | OPEN NL* | ANNOTATION NL* | DATA NL*)*
@@ -330,7 +326,7 @@ localPropertyDeclaration
 
 assignment
     : assignableExpression assignmentOperator NL* disjunction
-    ; 
+    ;
 
 expression
     : disjunction
@@ -355,8 +351,8 @@ comparison
 infixOperation
     : elvisExpression (inOperator NL* elvisExpression)*
     | elvisExpression (isOperator NL* type)?
-    ; 
-    
+    ;
+
 elvisExpression
     : infixFunctionCall (NL* ELVIS NL* infixFunctionCall)*
     ;
@@ -372,11 +368,11 @@ rangeExpression
 additiveExpression
     : multiplicativeExpression (additiveOperator NL* multiplicativeExpression)*
     ;
-           
+
 multiplicativeExpression
     : asExpression (multiplicativeOperator NL* asExpression)*
     ;
- 
+
 asExpression
     : prefixUnaryExpression asExpressionTail?
     ;
@@ -384,7 +380,7 @@ asExpression
 asExpressionTail
     : NL* asOperator NL* type asExpressionTail?
     ;
- 
+
 prefixUnaryExpression
     : prefixUnaryOperator* postfixUnaryExpression
     | annotations* postfixUnaryExpression
@@ -439,8 +435,8 @@ primaryExpression
     | identifier
     | functionLiteral
     | objectLiteral
-    | thisExpression    
-    | superExpression 
+    | thisExpression
+    | superExpression
     | conditionalExpression
     | tryExpression
     | loopExpression
@@ -476,9 +472,9 @@ multiLineStringLiteral
     ;
 
 lineStringContent
-    : LineStrText 
-    | LineStrEscapedChar 
-    | LineStrRef 
+    : LineStrText
+    | LineStrEscapedChar
+    | LineStrRef
     ;
 
 lineStringExpression
@@ -486,8 +482,8 @@ lineStringExpression
     ;
 
 multiLineStringContent
-    : MultiLineStrText 
-    | MultiLineStrEscapedChar 
+    : MultiLineStrText
+    | MultiLineStrEscapedChar
     | MultiLineStrRef
     ;
 
@@ -502,7 +498,7 @@ functionLiteral
     ;
 
 lambdaParameter
-    : variableDeclaration 
+    : variableDeclaration
     | multiVariableDeclaration (NL* COLON NL* type)?
     ;
 
@@ -513,67 +509,68 @@ objectLiteral
 thisExpression
     : THIS LabelReference?
     ;
-  
+
 superExpression
     : SUPER (LANGLE NL* type NL* RANGLE)? LabelReference?
     ;
 
 conditionalExpression
-    : ifExpression 
+    : ifExpression
     | whenExpression
     ;
 
+//controlStructureBody должно присутствовать!
 ifExpression
-    : IF NL* LPAREN expression RPAREN NL* controlStructureBody? semi?
-    (ELSE NL* controlStructureBody?)?
+    : IF NL* LPAREN expression RPAREN NL* controlStructureBody? SEMICOLON?
+    (NL* ELSE NL* controlStructureBody?)?
     ;
 
 controlStructureBody
-    : block 
+    : block
     | expression
     ;
 
 whenExpression
     : WHEN NL* (LPAREN expression RPAREN)? NL* LCURL NL* (whenEntry NL*)* NL* RCURL
     ;
- 
+
 whenEntry
     : whenCondition (NL* COMMA NL* whenCondition)* NL* ARROW NL* controlStructureBody semi?
     | ELSE NL* ARROW NL* controlStructureBody
     ;
- 
+
 whenCondition
     : expression
     | rangeTest
     | typeTest
-    ; 
+    ;
 
 rangeTest
     : inOperator NL* expression
-    ; 
+    ;
 
 typeTest
     : isOperator NL* type
-    ; 
+    ;
 
 tryExpression
-    : TRY NL* block NL* (catchBlock NL*)* finallyBlock?
-    ; 
- 
+    : TRY NL* block (NL* catchBlock)* (NL* finallyBlock)?
+    ;
+
 catchBlock
     : CATCH NL* LPAREN annotations* simpleIdentifier COLON userType RPAREN NL* block
-    ; 
- 
+    ;
+
 finallyBlock
     : FINALLY NL* block
-    ; 
- 
+    ;
+
 loopExpression
-    : forExpression 
-    | whileExpression 
+    : forExpression
+    | whileExpression
     | doWhileExpression
     ;
- 
+
 forExpression
     : FOR NL* LPAREN annotations* (variableDeclaration | multiVariableDeclaration) IN expression RPAREN NL* controlStructureBody?
     ;
@@ -581,14 +578,15 @@ forExpression
 whileExpression
     : WHILE NL* LPAREN expression RPAREN NL* controlStructureBody?
     ;
- 
+
 doWhileExpression
     : DO NL* controlStructureBody? NL* WHILE NL* LPAREN expression RPAREN
     ;
- 
+
 jumpExpression
     : THROW NL* expression
-    | (RETURN | RETURN_AT) expression?
+    | RETURN NL* expression?
+    | RETURN_AT expression?
     | CONTINUE | CONTINUE_AT
     | BREAK | BREAK_AT
     ;
@@ -622,11 +620,11 @@ comparisonOperator
 
 inOperator
     : IN | NOT_IN
-    ; 
+    ;
 
 isOperator
     : IS | NOT_IS
-    ; 
+    ;
 
 additiveOperator
     : ADD | SUB
@@ -688,7 +686,7 @@ inheritanceModifier
     | FINAL
     | OPEN) NL*
     ;
- 
+
 parameterModifier
     : (VARARG
     | NOINLINE
@@ -712,7 +710,7 @@ annotationList
     : annotationUseSiteTarget COLON LSQUARE unescapedAnnotation+ RSQUARE
     | AT LSQUARE unescapedAnnotation+ RSQUARE
     ;
- 
+
 annotationUseSiteTarget
     : FIELD
     | FILE
@@ -774,4 +772,3 @@ simpleIdentifier
     ;
 
 semi: NL+ | SEMICOLON | SEMICOLON NL+;
-

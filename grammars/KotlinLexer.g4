@@ -282,16 +282,8 @@ NullLiteral
     ;
 
 Identifier
-    : (RegularIdentifier | EscapedIdentifier)
-    | '`' ~('`')+ '`'
-    ;
-
-fragment RegularIdentifier
     : (Letter | '_') (Letter | '_' | DecDigit)*
-    ;
-
-fragment EscapedIdentifier
-    : '\\' ('t' | 'b' | 'r' | 'n' | '\'' | '"' | '\\' | '$')
+    | '`' ~('`')+ '`'
     ;
 
 LabelReference
@@ -317,6 +309,10 @@ fragment EscapeSeq
 
 fragment UniCharacterLiteral
     : '\\' 'u' HexDigit HexDigit HexDigit HexDigit
+    ;
+
+fragment EscapedIdentifier
+    : '\\' ('t' | 'b' | 'r' | 'n' | '\'' | '"' | '\\' | '$')
     ;
 
 fragment Letter
@@ -402,6 +398,22 @@ Inside_RECEIVER: RECEIVER -> type(RECEIVER) ;
 Inside_PARAM: PARAM -> type(PARAM) ;
 Inside_SETPARAM: SETPARAM -> type(SETPARAM) ;
 Inside_DELEGATE: DELEGATE -> type(DELEGATE) ;
+Inside_THROW: THROW -> type(THROW) ;
+Inside_RETURN: RETURN -> type(RETURN) ;
+Inside_CONTINUE: CONTINUE -> type(CONTINUE) ;
+Inside_BREAK: BREAK -> type(BREAK) ;
+Inside_RETURN_AT: RETURN_AT -> type(RETURN_AT) ;
+Inside_CONTINUE_AT: CONTINUE_AT -> type(CONTINUE_AT) ;
+Inside_BREAK_AT: BREAK_AT -> type(BREAK_AT) ;
+Inside_IF: IF -> type(IF) ;
+Inside_ELSE: ELSE -> type(ELSE) ;
+Inside_WHEN: WHEN -> type(WHEN) ;
+Inside_TRY: TRY -> type(TRY) ;
+Inside_CATCH: CATCH -> type(CATCH) ;
+Inside_FINALLY: FINALLY -> type(FINALLY) ;
+Inside_FOR: FOR -> type(FOR) ;
+Inside_DO: DO -> type(DO) ;
+Inside_WHILE: WHILE -> type(WHILE) ;
 
 Inside_BooleanLiteral: BooleanLiteral -> type(BooleanLiteral) ;
 Inside_IntegerLiteral: IntegerLiteral -> type(IntegerLiteral) ;
@@ -440,7 +452,7 @@ LineStrEscapedChar
     | UniCharacterLiteral
     ;
 
-LineStrExprStart    
+LineStrExprStart
     : '${' -> pushMode(StringExpression)
     ;
 
