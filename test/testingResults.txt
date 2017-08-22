@@ -80,15 +80,12 @@ line 7:30 no viable alternative at input 'private('
 Result: 3 syntax errors
 
 Testing ControlStructures.kt...
-line 3:25 no viable alternative at input 'throwFoo(),'
-line 3:25 extraneous input ',' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-line 68:13 extraneous input 'in' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-line 70:23 extraneous input 'in' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-line 121:4 mismatched input 'if' expecting {NL, ';'}
-line 123:4 mismatched input 'if' expecting {NL, ';'}
-line 137:8 no viable alternative at input 'do{;;'
-line 137:11 extraneous input 'foo' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-Result: 8 syntax errors
+line 67:7 no viable alternative at input 'for(val'
+line 67:13 extraneous input 'in' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
+line 69:23 extraneous input 'in' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
+line 90:6 no viable alternative at input '\nb'
+line 90:6 extraneous input 'b' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
+Result: 5 syntax errors
 
 Testing DefaultKeyword.kt...
 line 26:0 extraneous input 'companion' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
@@ -311,8 +308,8 @@ line 18:25 extraneous input 'in' expecting {<EOF>, '@', '@file', 'class', 'inter
 Result: 11 syntax errors
 
 Testing FunctionCalls.kt...
-line 32:17 no viable alternative at input 'v(fred<a,*,b>('
-line 33:2 extraneous input 'w' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
+line 8:2 no viable alternative at input '\n{'
+line 8:2 extraneous input '{' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
 Testing FunctionExpressions.kt...
@@ -574,7 +571,7 @@ Testing NestedComments.kt...
 Result: 0 syntax errors
 
 Testing NewlinesInParentheses.kt...
-line 28:4 no viable alternative at input 'when(e){\nisT\n<X>\n->a\ninf\n('
+line 23:2 mismatched input 'when' expecting {NL, ';'}
 line 24:4 extraneous input 'is' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 line 38:0 no viable alternative at input '\n}'
 line 38:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
@@ -793,8 +790,8 @@ line 20:4 extraneous input '"' expecting {<EOF>, '@', '@file', 'class', 'interfa
 Result: 2 syntax errors
 
 Testing Super.kt...
-line 5:10 no viable alternative at input 'super<>'
-line 6:4 extraneous input 'super' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
+line 4:4 no viable alternative at input '\nsuper'
+line 4:4 extraneous input 'super' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
 Testing test.kt...
@@ -808,7 +805,7 @@ line 1:0 extraneous input '...' expecting {<EOF>, NL, '@', '@file', 'package', '
 Result: 1 syntax errors
 
 Testing TryRecovery.kt...
-line 11:16 no viable alternative at input 'try{\n}catch({}try{}catch(e:{'
+line 10:4 no viable alternative at input 'try{\n}catch({}try'
 line 7:4 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
