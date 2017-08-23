@@ -11,7 +11,7 @@ public class PrintClassId {
         KotlinLexer lexer = new KotlinLexer(new ANTLRFileStream("test.kt"));
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
-        parser.file();
+        parser.kotlinFile();
 
         for (int i = 1; i < tokens.size() ; i++) {
             String prevToken = tokens.get(i - 1).getText();
