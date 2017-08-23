@@ -1,4 +1,4 @@
-# Kotlin ANTLR4 grammar
+ing# Kotlin ANTLR4 grammar
 
 ## Project description
 ANTLR4 grammar for Kotlin written only in ANTLR's special syntax. Developed to facilitate the implementation of the language in other projects.  
@@ -14,7 +14,7 @@ Lexer and parser grammars are divided for the use of lexer modes.
 All issues are described in TODO.txt.
 
 ## Testing
-After generating lexer and parser with ANTLR4 tool you can test the grammar running **test\Test.java**. Test data can be taken from the [JetBrains's repo](https://github.com/JetBrains/kotlin/tree/master/compiler/testData/psi).   
+After generating lexer and parser with ANTLR4 tool you can test the grammar running **testing\Test.java**. Test data can be taken from the [JetBrains's repo](https://github.com/JetBrains/kotlin/tree/master/compiler/testData/psi).   
 Some other usages of generated files are in the **examples** folder.
 
 ## Links
