@@ -8,8 +8,7 @@ import org.antlr.v4.runtime.*;
 public class PrintClassId {
 
     public static void main(String[] args) throws Exception{
-        CharStream cs = new ANTLRFileStream("test.kt");
-        KotlinLexer lexer = new KotlinLexer(cs);
+        KotlinLexer lexer = new KotlinLexer(new ANTLRFileStream("test.kt"));
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
         parser.file();
