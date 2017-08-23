@@ -15,23 +15,23 @@ parser grammar KotlinParser;
 options { tokenVocab = KotlinLexer; }
 
 kotlinFile
-    : NL* fileAnnotation* packageHeader* importHeader* topLevelObject* EOF
+    : NL* fileAnnotation? NL* packageHeader? NL* importHeader? NL* topLevelObject* EOF
     ;
 
 script
-    : NL* fileAnnotation* packageHeader* importHeader* (expression semi?)* EOF
+    : NL* fileAnnotation? NL* packageHeader? NL* importHeader? NL* (expression semi?)* EOF
     ;
 
 fileAnnotation
-    : FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation) semi?
+    : (FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation) SEMICOLON?)+
     ;
 
 packageHeader
-    : PACKAGE identifier semi?
+    : (PACKAGE identifier SEMICOLON?)+
     ;
 
 importHeader
-    : IMPORT identifier (DOT MULT | AS simpleIdentifier)? semi?
+    : (IMPORT identifier (DOT MULT | AS simpleIdentifier)? SEMICOLON?)+
     ;
 
 topLevelObject
