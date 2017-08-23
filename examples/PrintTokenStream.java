@@ -8,11 +8,10 @@ import org.antlr.v4.runtime.*;
 public class PrintTokenStream {
 
     public static void main(String[] args) throws Exception{
-        CharStream cs = new ANTLRFileStream("test.kt");
-        KotlinLexer lexer = new KotlinLexer(cs);
+        KotlinLexer lexer = new KotlinLexer(new ANTLRFileStream("test.kt"));
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
-        parser.file();
+        parser.kotlinFile();
         for (int i = 0; i < tokens.size() ; i++) {
             String tokenText = tokens.get(i).getText();
             String lexerRule = lexer.getVocabulary().getSymbolicName(tokens.get(i).getType());
