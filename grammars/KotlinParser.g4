@@ -61,17 +61,17 @@ topPropertyDeclaration
     ;
 
 typeAlias
-    : (annotations | visibilityModifier)* TYPE_ALIAS NL* simpleIdentifier NL* typeParameters? NL* ASSIGNMENT NL* type
+    : (annotations | visibilityModifier)* TYPE_ALIAS NL* simpleIdentifier (NL* typeParameters)? NL* ASSIGNMENT NL* type
     ;
 
 classDeclaration
-    : (CLASS | INTERFACE) NL* simpleIdentifier NL* typeParameters? NL* primaryConstructor? NL* delegationSpecifiers? NL*
-    typeConstraints? NL* classBody?
+    : (CLASS | INTERFACE) NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
+    (NL* typeConstraints)? (NL* classBody)?
     ;
 
 enumClassDeclaration
-    : CLASS NL* simpleIdentifier NL* typeParameters? NL* primaryConstructor? NL* delegationSpecifiers? NL*
-    typeConstraints? NL* enumClassBody?
+    : CLASS NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
+    (NL* typeConstraints)? (NL* enumClassBody)?
     ;
 
 primaryConstructor
@@ -79,11 +79,11 @@ primaryConstructor
     ;
 
 classParameter
-    : (annotations | parameterModifier | OVERRIDE NL*)* (VAL | VAR)? parameter (ASSIGNMENT expression)?
+    : (annotations | parameterModifier | OVERRIDE NL*)* (VAL | VAR)? simpleIdentifier COLON type (ASSIGNMENT expression)?
     ;
 
 delegationSpecifiers
-    : COLON NL* annotations* delegationSpecifier (NL* COMMA NL* delegationSpecifier)*
+    : annotations* delegationSpecifier (NL* COMMA NL* delegationSpecifier)*
     ;
 
 delegationSpecifier
@@ -135,7 +135,7 @@ memberObjectDeclaration
 
 companionObject
     : COMPANION NL* (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)*
-    OBJECT NL* simpleIdentifier? delegationSpecifiers? classBody?
+    OBJECT (NL* simpleIdentifier)? (NL* COLON NL* delegationSpecifiers)? (NL* classBody)?
     ;
 
 memberPropertyDeclaration
@@ -183,8 +183,8 @@ enumEntryBodyMembers
     ;
 
 functionDeclaration
-    : FUN NL* typeParameters? NL* (type NL* DOT)? NL* identifier? NL*
-    functionValueParameters NL* (COLON NL* type)? NL* typeConstraints? NL* functionBody?
+    : FUN (NL* typeParameters)? NL* (type NL* DOT)? (NL* identifier)? NL*
+    functionValueParameters (NL* COLON NL* type)? (NL* typeConstraints)? (NL* (block | ASSIGNMENT NL* expression))?
     ;
 
 functionValueParameters
@@ -192,26 +192,17 @@ functionValueParameters
     ;
 
 functionValueParameter
-    : (annotations | parameterModifier)* parameter (ASSIGNMENT expression)?
-    ;
-
-parameter
-    : simpleIdentifier NL* COLON type
-    ;
-
-functionBody
-    : block
-    | ASSIGNMENT NL* (expression | assignment)
+    : (annotations | parameterModifier)* simpleIdentifier COLON type (ASSIGNMENT expression)?
     ;
 
 objectDeclaration
-    : OBJECT NL* simpleIdentifier? NL* primaryConstructor? NL* delegationSpecifiers? NL* classBody?
+    : OBJECT (NL* simpleIdentifier)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)? (NL* classBody)?
     ;
 
 propertyDeclaration
-    : (VAL | VAR) NL* typeParameters? (NL* type NL* DOT)? NL*
-    (multiVariableDeclaration | variableDeclaration) NL* typeConstraints?
-    (NL* (BY | ASSIGNMENT) NL* expression)? semi? (getter? NL* setter? | setter? NL* getter?)
+    : (VAL | VAR) (NL* typeParameters)? (NL* type NL* DOT)?
+    (NL* (multiVariableDeclaration | variableDeclaration)) (NL* typeConstraints)?
+    (NL* (BY | ASSIGNMENT) NL* expression)? (semi? (getter? NL* setter? | setter? NL* getter?))
     ;
 
 multiVariableDeclaration
@@ -223,14 +214,15 @@ variableDeclaration
     ;
 
 getter
-    : (annotations | visibilityModifier | PROTECTED NL*)* GETTER NL*
-    | (annotations | visibilityModifier | PROTECTED NL*)* GETTER NL* LPAREN RPAREN (NL* COLON NL* type)? NL* functionBody
+    : (annotations | visibilityModifier | PROTECTED NL*)* GETTER
+    | (annotations | visibilityModifier | PROTECTED NL*)* GETTER NL* LPAREN RPAREN (NL* COLON NL* type)? NL*
+    (block | ASSIGNMENT NL* expression)
     ;
 
 setter
-    : (annotations | visibilityModifier | PROTECTED NL*)* SETTER NL*
+    : (annotations | visibilityModifier | PROTECTED NL*)* SETTER
     | (annotations | visibilityModifier | PROTECTED NL*)* SETTER NL* LPAREN (annotations | parameterModifier)*
-      (simpleIdentifier | parameter) RPAREN NL* functionBody
+      simpleIdentifier (NL* COLON type)? RPAREN NL* (block | ASSIGNMENT NL* expression)
     ;
 
 typeParameters
@@ -283,7 +275,7 @@ varianceAnnotation
     ;
 
 functionType
-    : LPAREN (parameter | type)? (COMMA (parameter | type))* RPAREN NL* ARROW NL* type?
+    : LPAREN ((simpleIdentifier COLON)? type)? (COMMA (simpleIdentifier COLON)? type)* RPAREN NL* ARROW (NL* type)?
     ;
 
 typeConstraints
@@ -388,7 +380,10 @@ prefixUnaryExpression
     ;
 
 postfixUnaryExpression
-    : assignableExpression postfixUnaryOperator*
+    : assignableExpression (postfixUnaryOperator*
+     | typeArguments? valueArguments? annotatedLambda*
+     | (NL* memberAccessOperator postfixUnaryExpression)+
+     | arrayAccess+)
     | (LPAREN callableReference RPAREN postfixUnaryOperator+
      | callableReference)
     ;
@@ -403,9 +398,9 @@ indexingExpression
     ;
 
 callSuffix
-    : typeArguments? valueArguments annotatedLambda?
-    | typeArguments annotatedLambda?
-    | annotatedLambda
+    : typeArguments? valueArguments annotatedLambda*
+    | typeArguments annotatedLambda*
+    //| annotatedLambda
     ;
 
 annotatedLambda
@@ -503,7 +498,7 @@ lambdaParameter
     ;
 
 objectLiteral
-    : OBJECT (NL* delegationSpecifiers)? NL* classBody
+    : OBJECT (NL* COLON NL* delegationSpecifiers)? NL* classBody
     ;
 
 thisExpression
@@ -652,9 +647,6 @@ prefixUnaryOperator
 
 postfixUnaryOperator
     : INCR | DECR | EXCL EXCL
-    | NL* memberAccessOperator postfixUnaryExpression
-    | callSuffix
-    | arrayAccess
     ;
 
 memberAccessOperator
