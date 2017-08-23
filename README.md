@@ -1,4 +1,4 @@
-ing# Kotlin ANTLR4 grammar
+# Kotlin ANTLR4 grammar
 
 ## Project description
 ANTLR4 grammar for Kotlin written only in ANTLR's special syntax. Developed to facilitate the implementation of the language in other projects.  
