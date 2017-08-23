@@ -400,7 +400,6 @@ indexingExpression
 callSuffix
     : typeArguments? valueArguments annotatedLambda*
     | typeArguments annotatedLambda*
-    //| annotatedLambda
     ;
 
 annotatedLambda
