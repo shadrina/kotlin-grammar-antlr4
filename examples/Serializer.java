@@ -10,14 +10,10 @@ import java.util.Objects;
 public class Serializer {
 
     public static void main(String[] args) throws Exception{
-        CharStream cs = new ANTLRFileStream("test.kt");
-        KotlinLexer lexer = new KotlinLexer(cs);
+        KotlinLexer lexer = new KotlinLexer(new ANTLRFileStream("test.kt"));
         TokenStream tokens = new CommonTokenStream(lexer);
         KotlinParser parser = new KotlinParser(tokens);
-        parser.setBuildParseTree(true);
-        parser.setTokenStream(tokens);
-        ParseTree tree = parser.file();
-        printTree(tree,0, lexer);
+        printTree(parser.kotlinFile(), 0, lexer);
     }
 
     private static void printTree(ParseTree tree, int indentation, KotlinLexer lexer) throws Exception{
