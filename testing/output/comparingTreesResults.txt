@@ -2,16 +2,16 @@ AnonymousInitializer.kt: Test passed
 BabySteps.kt: Test passed
 ByClauses.kt: Test passed
 CallWithManyClosures.kt: Test passed
-CommentsBindingInLambda.kt: Test failed
+CommentsBindingInLambda.kt: Test passed
 CommentsBindingInStatementBlock.kt: Test passed
 destructuringInLambdas.kt: Test failed
 DocCommentAfterFileAnnotations.kt: Test passed
 DocCommentForFirstDeclaration.kt: Test passed
 DocCommentOnPackageDirectiveLine.kt: Test passed
-DocCommentsBinding.kt: Test failed
-DoubleColonWhitespaces.kt: Test failed
-DynamicReceiver.kt: Test failed
-DynamicTypes.kt: Test failed
+DocCommentsBinding.kt: Test passed
+DoubleColonWhitespaces.kt: Test passed
+DynamicReceiver.kt: Test passed
+DynamicTypes.kt: Test passed
 EmptyFile.kt: Test passed
 EnumCommas.kt: Test failed
 EnumEntrySemicolonInlineMember.kt: Test failed
@@ -26,7 +26,7 @@ ExtensionsWithQNReceiver.kt: Test failed
 FloatingPointLiteral.kt: Test passed
 FunctionLiterals.kt: Test failed
 FunctionTypes.kt: Test failed
-IfWithPropery.kt: Test failed
+IfWithPropery.kt: Test passed
 Imports.kt: Test failed
 ImportSoftKW.kt: Test failed
 Inner.kt: Test failed
@@ -40,13 +40,13 @@ NamedClassObject.kt: Test passed
 NestedComments.kt: Test passed
 NewLinesValidOperations.kt: Test failed
 NotIsAndNotIn.kt: Test passed
-ObjectLiteralAsStatement.kt: Test failed
+ObjectLiteralAsStatement.kt: Test passed
 Properties.kt: Test failed
 PropertyInvokes.kt: Test passed
 QuotedIdentifiers.kt: Test failed
 SemicolonAfterIf.kt: Test failed
 TraitConstructor.kt: Test passed
-TypeAlias.kt: Test failed
+TypeAlias.kt: Test passed
 TypeConstraints.kt: Test failed
 
-Number of passed tests: 20
+Number of passed tests: 28
