@@ -272,7 +272,11 @@ userType
     ;
 
 simpleUserType
-    : simpleIdentifier (NL* LANGLE NL* simpleUserTypeParameter (NL* COMMA NL* simpleUserTypeParameter)* NL* RANGLE)?
+    : simpleIdentifier (NL* simpleUserTypeParameters)?
+    ;
+
+simpleUserTypeParameters
+    : LANGLE NL* simpleUserTypeParameter (NL* COMMA NL* simpleUserTypeParameter)* NL* RANGLE
     ;
 
 simpleUserTypeParameter
@@ -300,7 +304,11 @@ typeConstraint
     ;
 
 block
-    : LCURL NL* (statement semi)* statement? NL* RCURL
+    : LCURL NL* (statement semi)* (statement semi?)? NL* RCURL
+    ;
+
+statements
+    : (statement semi)* statement semi?
     ;
 
 statement
@@ -500,8 +508,8 @@ multiLineStringExpression
 
 functionLiteral
     : annotations*
-    ( LCURL NL* (statement semi)* statement? NL* RCURL
-    | LCURL NL* lambdaParameter (NL* COMMA NL* lambdaParameter)* NL* ARROW NL* (statement semi)* statement? NL* RCURL )
+    ( LCURL NL* statements? NL* RCURL
+    | LCURL NL* lambdaParameter (NL* COMMA NL* lambdaParameter)* NL* ARROW NL* statements? NL* RCURL )
     ;
 
 lambdaParameter
