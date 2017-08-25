@@ -23,15 +23,15 @@ script
     ;
 
 fileAnnotation
-    : (FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation) NL* SEMICOLON? NL*)+
+    : (FILE COLON (LSQUARE unescapedAnnotation+ RSQUARE | unescapedAnnotation) semi?)+
     ;
 
 packageHeader
-    : PACKAGE identifier NL* SEMICOLON? NL*
+    : PACKAGE identifier semi?
     ;
 
 importHeader
-    : (IMPORT identifier (DOT MULT | AS simpleIdentifier)? NL* SEMICOLON? NL*)+
+    : (IMPORT identifier (DOT MULT | AS simpleIdentifier)? semi?)+
     ;
 
 topLevelObject
