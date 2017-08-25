@@ -55,12 +55,12 @@ public class Deserializer {
         return tree;
     }
 
-    private static String getRuleName(String line) {
+    private static String getRuleName(String line) throws Exception {
         String[] info = line.split("[(]");
         return info[0];
     }
 
-    private static String getTokenType(String line) {
+    private static String getTokenType(String line) throws Exception {
         if (line.startsWith("PsiWhiteSpace")) return "PsiWhiteSpace";
         if (line.startsWith("PsiErrorElement")) return "PsiErrorElement";
         String[] info = line.split("[(]");
@@ -68,7 +68,7 @@ public class Deserializer {
         return info[1].replace(")", "");
     }
 
-    private static String getTokenText(String line) {
+    private static String getTokenText(String line) throws Exception {
         line = line.replace(")", "");
         String[] info = line.split("[(]");
         if (line.startsWith("PsiWhiteSpace")) return info[1];
