@@ -184,7 +184,7 @@ enumEntryBodyMembers
 
 functionDeclaration
     : FUN (NL* typeParameters)? NL* (type NL* DOT)? (NL* identifier)? NL*
-    functionValueParameters (NL* COLON NL* type)? (NL* typeConstraints)? (NL* (block | ASSIGNMENT NL* expression))?
+    functionValueParameters (NL* COLON NL* type)? (NL* typeConstraints)? (NL* functionBody)?
     ;
 
 functionValueParameters
@@ -192,7 +192,16 @@ functionValueParameters
     ;
 
 functionValueParameter
-    : (annotations | parameterModifier)* simpleIdentifier COLON type (ASSIGNMENT expression)?
+    : (annotations | parameterModifier)* parameter (ASSIGNMENT expression)?
+    ;
+
+parameter
+    : simpleIdentifier COLON type
+    ;
+
+functionBody
+    : block
+    | ASSIGNMENT NL* expression
     ;
 
 objectDeclaration
@@ -222,7 +231,7 @@ getter
 setter
     : (annotations | visibilityModifier | PROTECTED NL*)* SETTER
     | (annotations | visibilityModifier | PROTECTED NL*)* SETTER NL* LPAREN (annotations | parameterModifier)*
-      simpleIdentifier (NL* COLON type)? RPAREN NL* (block | ASSIGNMENT NL* expression)
+      (simpleIdentifier | parameter) RPAREN NL* functionBody
     ;
 
 typeParameters
@@ -275,7 +284,7 @@ varianceAnnotation
     ;
 
 functionType
-    : LPAREN ((simpleIdentifier COLON)? type)? (COMMA (simpleIdentifier COLON)? type)* RPAREN NL* ARROW (NL* type)?
+    : LPAREN (parameter | type)? (COMMA (parameter | type))* RPAREN NL* ARROW (NL* type)?
     ;
 
 typeConstraints
