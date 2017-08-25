@@ -43,6 +43,7 @@ public class Comparator {
         int PSItreeChildCount = PSI_getRelevantChildCount(PSItree);
 
         if (ANTLRtreeChildCount == PSItreeChildCount) {
+            int redundantRuleLastCheckedChild = 0;
             int ANTLRnext = 0;
             int PSInext = 0;
             int count = 0;
@@ -51,14 +52,26 @@ public class Comparator {
                 while (PSInext != PSItree.getChildCount() && PSI_isList(PSItree.getChild(PSInext))) PSInext++;
 
                 if (ANTLRnext == ANTLRtree.getChildCount() && PSInext == PSItree.getChildCount()) return result;
-                if (ANTLRnext == ANTLRtree.getChildCount() || PSInext == PSItree.getChildCount()) return false;
 
+                if (ANTLRnext == ANTLRtree.getChildCount()) return false;
                 ParseTree ANTLRchild = ANTLRtree.getChild(ANTLRnext);
+                if (ANTLR_isRedundantRule(ANTLRchild)) {
+                    for (; redundantRuleLastCheckedChild < ANTLRchild.getChildCount(); redundantRuleLastCheckedChild++)
+                        if (!ANTLR_isList(ANTLRchild.getChild(redundantRuleLastCheckedChild))) break;
+                    if (redundantRuleLastCheckedChild == ANTLRchild.getChildCount()) {
+                        redundantRuleLastCheckedChild = 0;
+                        ANTLRnext++;
+                        continue;
+                    }
+                    ANTLRchild = ANTLRchild.getChild(redundantRuleLastCheckedChild);
+                }
                 while (ANTLR_getRelevantChildCount(ANTLRchild) == 1) {
                     int i = 0;
                     while (!ANTLR_isRelevantRule(ANTLRchild.getChild(i))) i++;
                     ANTLRchild = ANTLRchild.getChild(i);
                 }
+
+                if (PSInext == PSItree.getChildCount()) return false;
                 ParserTree PSIchild = PSItree.getChild(PSInext);
                 while (PSI_getRelevantChildCount(PSIchild) == 1) {
                     int i = 0;
@@ -75,45 +88,63 @@ public class Comparator {
         return false;
     }
 
-    private static boolean ANTLR_isList(ParseTree tree) {
+    private static boolean ANTLR_isList(ParseTree tree) throws Exception {
         int childCount = ANTLR_getRelevantChildCount(tree);
         if (childCount == 0) return true;
         if (childCount == 1) {
-            tree = tree.getChild(0);
-            return ANTLR_isList(tree);
+            int i = 0;
+            while (!ANTLR_isRelevantRule(tree.getChild(i))) i++;
+            return ANTLR_isList(tree.getChild(i));
         }
         return false;
     }
 
-    private static int ANTLR_getRelevantChildCount(ParseTree tree) {
+    private static int ANTLR_getRelevantChildCount(ParseTree tree) throws Exception {
         int childCount = tree.getChildCount();
-        for (int i = 0; i < tree.getChildCount(); i++)
+        for (int i = 0; i < tree.getChildCount(); i++) {
             if (!ANTLR_isRelevantRule(tree.getChild(i))) childCount--;
+            if (ANTLR_isRedundantRule(tree.getChild(i)))
+                childCount += -1 + tree.getChild(i).getChildCount();
+            if (tree.getChild(i).getChildCount() == 0 && ((TerminalNodeImpl)tree.getChild(i)).getText().contains("?::"))
+                childCount++;
+        }
         return childCount;
     }
 
-    private static boolean ANTLR_isRelevantRule(ParseTree tree) {
+    private static boolean ANTLR_isRelevantRule(ParseTree tree) throws Exception {
         if (tree.getChildCount() == 0) {
             TerminalNodeImpl node = (TerminalNodeImpl) tree;
             return     !node.getText().contains("\r\n")
                     && !node.getText().contains("\n")
                     && !node.getText().contains("<EOF>");
         }
-        return !tree.getClass().getSimpleName().contains("Semi");
+        return !ANTLR_getRuleName(tree).contains("Semi");
     }
 
-    private static boolean PSI_isList(ParserTree tree) {
+    private static boolean ANTLR_isRedundantRule(ParseTree tree) throws Exception {
+        String ruleName = ANTLR_getRuleName(tree);
+        return     ruleName.startsWith("VariableDeclaration")
+                || ruleName.startsWith("Parameter")
+                || ruleName.startsWith("FunctionBody");
+    }
+
+    private static String ANTLR_getRuleName(ParseTree tree) throws Exception {
+        return tree.getClass().getSimpleName();
+    }
+
+    private static boolean PSI_isList(ParserTree tree) throws Exception {
         if (tree.getRuleName().startsWith("KDoc")) return true;
         int childCount = PSI_getRelevantChildCount(tree);
         if (childCount == 0) return true;
         if (childCount == 1) {
-            tree = tree.getChild(0);
-            return PSI_isList(tree);
+            int i = 0;
+            while (!PSI_isRelevantRule(tree.getChild(i))) i++;
+            return PSI_isList(tree.getChild(i));
         }
         return false;
     }
 
-    private static int PSI_getRelevantChildCount(ParserTree tree) {
+    private static int PSI_getRelevantChildCount(ParserTree tree) throws Exception {
         int childCount = tree.getChildCount();
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!PSI_isRelevantRule(tree.getChild(i))) childCount--;
@@ -125,11 +156,12 @@ public class Comparator {
         return childCount;
     }
 
-    private static boolean PSI_isRelevantRule(ParserTree tree) {
+    private static boolean PSI_isRelevantRule(ParserTree tree) throws Exception {
         return     !tree.getRuleName().startsWith("PsiWhiteSpace")
                 && !tree.getRuleName().startsWith("PsiComment")
                 && !tree.getRuleName().startsWith("KDoc")
-                && !(tree.getChildCount() == 1 && tree.getChild(0).getRuleName().contains("<empty list>"));
+                && !(tree.getChildCount() == 1 && tree.getChild(0).getRuleName().contains("<empty list>"))
+                && !(tree.getChildCount() == 0 && tree.getToken().getTokenType().contains("SEMICOLON"));
     }
 
 }
