@@ -125,7 +125,8 @@ public class Comparator {
         String ruleName = ANTLR_getRuleName(tree);
         return     ruleName.startsWith("VariableDeclaration")
                 || ruleName.startsWith("Parameter")
-                || ruleName.startsWith("FunctionBody");
+                || ruleName.startsWith("FunctionBody")
+                || ruleName.startsWith("FunctionType");
     }
 
     private static String ANTLR_getRuleName(ParseTree tree) throws Exception {
@@ -150,16 +151,26 @@ public class Comparator {
             if (!PSI_isRelevantRule(tree.getChild(i))) childCount--;
             if (i < (tree.getChildCount() - 1)
                     && tree.getChild(i).getToken().getTokenType().contains("AT")
-                    && tree.getChild(i + 1).getRuleName().contains("ANNOTATION_TARGET"))
+                    && (tree.getChild(i + 1).getRuleName().startsWith("ANNOTATION_TARGET")
+                     || tree.getChild(i + 1).getRuleName().startsWith("CONSTRUCTOR_CALLEE")))
                 childCount--;
         }
         return childCount;
     }
 
     private static boolean PSI_isRelevantRule(ParserTree tree) throws Exception {
+        if (tree.getRuleName().startsWith("BLOCK")) {
+            int i = 0;
+            while (i != tree.getChildCount()) {
+                if (PSI_isRelevantRule(tree.getChild(i))) return true;
+                i++;
+            }
+            return false;
+        }
         return     !tree.getRuleName().startsWith("PsiWhiteSpace")
                 && !tree.getRuleName().startsWith("PsiComment")
                 && !tree.getRuleName().startsWith("KDoc")
+                && !tree.getRuleName().startsWith("<empty list>")
                 && !(tree.getChildCount() == 1 && tree.getChild(0).getRuleName().contains("<empty list>"))
                 && !(tree.getChildCount() == 0 && tree.getToken().getTokenType().contains("SEMICOLON"));
     }
