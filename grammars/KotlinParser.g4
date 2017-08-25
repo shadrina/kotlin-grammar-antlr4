@@ -284,7 +284,11 @@ varianceAnnotation
     ;
 
 functionType
-    : LPAREN (parameter | type)? (COMMA (parameter | type))* RPAREN NL* ARROW (NL* type)?
+    : functionTypeParameters NL* ARROW (NL* type)?
+    ;
+
+functionTypeParameters
+    : LPAREN (parameter | type)? (COMMA (parameter | type))* RPAREN
     ;
 
 typeConstraints
