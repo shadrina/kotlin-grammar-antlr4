@@ -15,7 +15,7 @@ public class Comparator {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws Exception {
-        testFile("test");
+        testFile("ExtensionsWithQNReceiver");
     }
 
     public static boolean testFile(String fileName) throws Exception {
@@ -53,7 +53,8 @@ public class Comparator {
 
                 if (ANTLRnext == ANTLRtree.getChildCount() && PSInext == PSItree.getChildCount()) return result;
 
-                if (ANTLRnext == ANTLRtree.getChildCount()) return false;
+                if (ANTLRnext == ANTLRtree.getChildCount())
+                    return false;
                 ParseTree ANTLRchild = ANTLRtree.getChild(ANTLRnext);
                 if (ANTLR_isRedundantRule(ANTLRchild)) {
                     for (; redundantRuleLastCheckedChild < ANTLRchild.getChildCount(); redundantRuleLastCheckedChild++)
@@ -71,7 +72,8 @@ public class Comparator {
                     ANTLRchild = ANTLRchild.getChild(i);
                 }
 
-                if (PSInext == PSItree.getChildCount()) return false;
+                if (PSInext == PSItree.getChildCount())
+                    return false;
                 ParserTree PSIchild = PSItree.getChild(PSInext);
                 while (PSI_getRelevantChildCount(PSIchild) == 1) {
                     int i = 0;
@@ -116,6 +118,7 @@ public class Comparator {
             TerminalNodeImpl node = (TerminalNodeImpl) tree;
             return     !node.getText().contains("\r\n")
                     && !node.getText().contains("\n")
+                    && !node.getText().contains(";")
                     && !node.getText().contains("<EOF>");
         }
         return !ANTLR_getRuleName(tree).contains("Semi");
