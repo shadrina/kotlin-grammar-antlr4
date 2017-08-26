@@ -47,6 +47,6 @@ QuotedIdentifiers.kt: Test failed
 SemicolonAfterIf.kt: Test passed
 TraitConstructor.kt: Test passed
 TypeAlias.kt: Test passed
-TypeConstraints.kt: Test failed
+TypeConstraints.kt: Test passed
 
-Number of passed tests: 29
+Number of passed tests: 30
