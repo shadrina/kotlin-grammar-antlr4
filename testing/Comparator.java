@@ -15,7 +15,7 @@ public class Comparator {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws Exception {
-        testFile("ExtensionsWithQNReceiver");
+        testFile("test");
     }
 
     public static boolean testFile(String fileName) throws Exception {
