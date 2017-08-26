@@ -166,7 +166,7 @@ enumEntries
     ;
 
 enumEntry
-    : simpleIdentifier NL* valueArguments? NL* enumEntryBody?
+    : simpleIdentifier (NL* valueArguments)? (NL* enumEntryBody)?
     ;
 
 enumEntryBody

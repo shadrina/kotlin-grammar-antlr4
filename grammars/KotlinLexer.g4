@@ -182,15 +182,15 @@ FloatLiteral
     ;
 
 DoubleLiteral
-    : '-'?
-    ( (DecDigitNoZero DecDigit*)? '.'
-     | (DecDigitNoZero (DecDigit | '_')* DecDigit)? '.')
-    ( DecDigit+
-     | DecDigit (DecDigit | '_')+ DecDigit
-     | DecDigit+ [eE] ('+' | '-')? DecDigit+
-     | DecDigit+ [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-     | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
-     | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit)
+    : ( (DecDigitNoZero DecDigit*)? '.'
+      | (DecDigitNoZero (DecDigit | '_')* DecDigit)? '.')
+     ( DecDigit+
+      | DecDigit (DecDigit | '_')+ DecDigit
+      | DecDigit+ [eE] ('+' | '-')? DecDigit+
+      | DecDigit+ [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
+      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
+      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
+     )
     ;
 
 LongLiteral
@@ -198,14 +198,14 @@ LongLiteral
     ;
 
 IntegerLiteral
-    : '-'?
-    ('0'
-    | DecDigitNoZero DecDigit*
-    | DecDigitNoZero (DecDigit | '_')+ DecDigit
-    | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit+
-    | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-    | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
-    | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit )
+    : ('0'
+      | DecDigitNoZero DecDigit*
+      | DecDigitNoZero (DecDigit | '_')+ DecDigit
+      | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit+
+      | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
+      | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
+      | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
+      )
     ;
 
 fragment DecDigit
