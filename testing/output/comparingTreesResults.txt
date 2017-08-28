@@ -24,17 +24,17 @@ EnumShortWithOverload.kt: Test failed
 EOLsInComments.kt: Test passed
 ExtensionsWithQNReceiver.kt: Test failed
 FloatingPointLiteral.kt: Test passed
-FunctionLiterals.kt: Test failed
+FunctionLiterals.kt: Test passed
 FunctionTypes.kt: Test failed
 IfWithPropery.kt: Test passed
-Imports.kt: Test failed
-ImportSoftKW.kt: Test failed
+Imports.kt: Test passed
+ImportSoftKW.kt: Test passed
 Inner.kt: Test failed
 Interface.kt: Test passed
 LineCommentAfterFileAnnotations.kt: Test passed
 LineCommentForFirstDeclaration.kt: Test passed
 LineCommentsInBlock.kt: Test passed
-LongPackageName.kt: Test failed
+LongPackageName.kt: Test passed
 ModifierAsSelector.kt: Test passed
 NamedClassObject.kt: Test passed
 NestedComments.kt: Test passed
@@ -49,4 +49,4 @@ TraitConstructor.kt: Test passed
 TypeAlias.kt: Test passed
 TypeConstraints.kt: Test passed
 
-Number of passed tests: 31
+Number of passed tests: 35
