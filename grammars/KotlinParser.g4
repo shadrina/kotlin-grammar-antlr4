@@ -401,7 +401,8 @@ prefixUnaryExpression
     ;
 
 postfixUnaryExpression
-    : assignableExpression (postfixUnaryOperator*
+    : assignableExpression
+    | assignableExpression (postfixUnaryOperator*
      | typeArguments? valueArguments? annotatedLambda*
      | (NL* memberAccessOperator postfixUnaryExpression)+
      | arrayAccess+)
