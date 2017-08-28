@@ -35,7 +35,7 @@ LineCommentAfterFileAnnotations.kt: Test passed
 LineCommentForFirstDeclaration.kt: Test passed
 LineCommentsInBlock.kt: Test passed
 LongPackageName.kt: Test failed
-ModifierAsSelector.kt: Test failed
+ModifierAsSelector.kt: Test passed
 NamedClassObject.kt: Test passed
 NestedComments.kt: Test passed
 NewLinesValidOperations.kt: Test failed
@@ -49,4 +49,4 @@ TraitConstructor.kt: Test passed
 TypeAlias.kt: Test passed
 TypeConstraints.kt: Test passed
 
-Number of passed tests: 30
+Number of passed tests: 31
