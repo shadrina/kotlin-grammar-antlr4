@@ -15,11 +15,11 @@ parser grammar KotlinParser;
 options { tokenVocab = KotlinLexer; }
 
 kotlinFile
-    : NL* fileAnnotation? packageHeader? importHeader? topLevelObject* EOF
+    : NL* fileAnnotation? packageHeader? importDirective? topLevelObject* EOF
     ;
 
 script
-    : NL* fileAnnotation? packageHeader? importHeader? (expression semi?)* EOF
+    : NL* fileAnnotation? packageHeader? importDirective? (expression semi?)* EOF
     ;
 
 fileAnnotation
@@ -30,8 +30,16 @@ packageHeader
     : PACKAGE identifier semi?
     ;
 
+importDirective
+    : importHeader+
+    ;
+
 importHeader
-    : (IMPORT identifier (DOT MULT | AS simpleIdentifier)? semi?)+
+    : IMPORT identifier (DOT MULT | importAlias)? semi?
+    ;
+
+importAlias
+    : AS simpleIdentifier
     ;
 
 topLevelObject
@@ -510,7 +518,11 @@ multiLineStringExpression
 functionLiteral
     : annotations*
     ( LCURL NL* statements? NL* RCURL
-    | LCURL NL* lambdaParameter (NL* COMMA NL* lambdaParameter)* NL* ARROW NL* statements? NL* RCURL )
+    | LCURL NL* lambdaParameters NL* ARROW NL* statements? NL* RCURL )
+    ;
+
+lambdaParameters
+    : lambdaParameter (NL* COMMA NL* lambdaParameter)*
     ;
 
 lambdaParameter
