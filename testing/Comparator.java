@@ -15,7 +15,7 @@ public class Comparator {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws Exception {
-        testFile("ExtensionsWithQNReceiver");
+        testFile("test");
     }
 
     public static boolean testFile(String fileName) throws Exception {
@@ -38,6 +38,12 @@ public class Comparator {
     }
 
     private static boolean compareTrees(ParseTree ANTLRtree, ParserTree PSItree) throws Exception {
+
+        //DOT_QUALIFIED_EXPRESSION is a left-recursive rule
+        //it is impossible to recreate it using ANTLR
+        if (ANTLR_getRuleName(ANTLRtree).startsWith("Identifier")
+                && PSItree.getRuleName().startsWith("DOT_QUALIFIED_EXPRESSION")) return true;
+
         boolean result = true;
         int ANTLRtreeChildCount = ANTLR_getRelevantChildCount(ANTLRtree);
         int PSItreeChildCount = PSI_getRelevantChildCount(PSItree);
@@ -127,7 +133,8 @@ public class Comparator {
         return     ruleName.startsWith("VariableDeclaration")
                 || ruleName.startsWith("Parameter")
                 || ruleName.startsWith("FunctionBody")
-                || ruleName.startsWith("FunctionType");
+                || ruleName.startsWith("FunctionType")
+                || ruleName.startsWith("TypeConstraints");
     }
 
     private static String ANTLR_getRuleName(ParseTree tree) throws Exception {
@@ -153,8 +160,7 @@ public class Comparator {
             if (i < (tree.getChildCount() - 1)
                     && tree.getChild(i).getToken().getTokenType().contains("AT")
                     && (tree.getChild(i + 1).getRuleName().startsWith("ANNOTATION_TARGET")
-                     || tree.getChild(i + 1).getRuleName().startsWith("CONSTRUCTOR_CALLEE")))
-                childCount--;
+                     || tree.getChild(i + 1).getRuleName().startsWith("CONSTRUCTOR_CALLEE"))) childCount--;
         }
         return childCount;
     }
