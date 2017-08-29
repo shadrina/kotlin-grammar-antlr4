@@ -128,7 +128,7 @@ nestedClassDeclaration
     ;
 
 nestedEnumClassDeclaration
-    : ENUM NL* (annotations | visibilityModifier |PROTECTED NL* | FINAL NL*)* enumClassDeclaration
+    : ENUM NL* (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)* enumClassDeclaration
     | (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)* ENUM NL* enumClassDeclaration
     ;
 
@@ -170,11 +170,11 @@ enumClassBody
     ;
 
 enumEntries
-    : enumEntry (NL* COMMA NL* enumEntry)* NL* (COMMA | SEMICOLON)?
+    : (enumEntry NL*)+ SEMICOLON?
     ;
 
 enumEntry
-    : simpleIdentifier (NL* valueArguments)? (NL* enumEntryBody)?
+    : simpleIdentifier (NL* valueArguments)? (NL* enumEntryBody)? (NL* COMMA)?
     ;
 
 enumEntryBody
@@ -247,7 +247,7 @@ typeParameters
     ;
 
 typeParameter
-    : (varianceAnnotation | REIFIED)? NL* simpleIdentifier (NL* COLON NL* userType)?
+    : (varianceAnnotation | REIFIED NL*)? NL* simpleIdentifier (NL* COLON NL* userType)?
     //varianceAnnotation for classes and interfaces
     //reifiedModifier for inline functions
     ;
@@ -547,7 +547,6 @@ conditionalExpression
     | whenExpression
     ;
 
-//controlStructureBody должно присутствовать!
 ifExpression
     : IF NL* LPAREN expression RPAREN NL* controlStructureBody? SEMICOLON?
     (NL* ELSE NL* controlStructureBody?)?
@@ -693,16 +692,16 @@ visibilityModifier
     ;
 
 classModifier
-    : (SEALED
-    | ANNOTATION
-    | DATA) NL*
+    : (ANNOTATION
+    | DATA
+    | SEALED) NL*
     ;
 
 functionModifier
     : (TAILREC
     | OPERATOR
-    | INLINE
     | EXTERNAL
+    | INLINE
     | SUSPEND) NL*
     ;
 
@@ -717,6 +716,25 @@ parameterModifier
     | NOINLINE
     | CROSSINLINE) NL*
     ;
+
+/*enumModifier: ENUM NL* ;
+finalModifier: FINAL NL* ;
+constModifier: CONST NL* ;
+protectedModifier: PROTECTED NL* ;
+innerModifier: INNER NL* ;
+infixModifier: INFIX NL* ;
+companionModifier: COMPANION NL* ;
+lateinitModifier: LATEINIT NL* ;
+reifiedModifier: REIFIED NL* ;
+abstractModifier: ABSTRACT NL* ;
+openModifier: OPEN NL* ;
+annotationModifier: ANNOTATION NL* ;
+dataModifier: DATA NL* ;
+overrideModifier: OVERRIDE NL*;
+tailrecModifier: TAILREC NL* ;
+operatorModifier: OPERATOR NL ;
+externalModifier: EXTERNAL NL* ;*/
+
 
 labelDefinition
     : LabelDefinition NL*
