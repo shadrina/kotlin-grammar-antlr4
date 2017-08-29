@@ -185,7 +185,7 @@ Testing EnumCommas.kt...
 Result: 0 syntax errors
 
 Testing EnumEntryCommaAnnotatedMember.kt...
-line 4:4 no viable alternative at input '\n\n@inline'
+line 4:4 mismatched input '@inline' expecting {NL, '}', ';'}
 line 5:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
@@ -195,7 +195,7 @@ line 5:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interfac
 Result: 2 syntax errors
 
 Testing EnumEntryCommaMember.kt...
-line 4:4 no viable alternative at input '\n\nfun'
+line 4:4 mismatched input 'fun' expecting {NL, '}', ';'}
 line 5:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
@@ -211,7 +211,7 @@ Testing EnumEntrySemicolonMember.kt...
 Result: 0 syntax errors
 
 Testing EnumEntrySpaceInlineMember.kt...
-line 4:4 mismatched input 'inline' expecting {NL, '}', ';'}
+line 4:11 mismatched input 'fun' expecting {NL, '}', ';'}
 line 5:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
 
@@ -231,9 +231,7 @@ Testing EnumInline.kt...
 Result: 0 syntax errors
 
 Testing EnumInlinePublic.kt...
-line 2:11 mismatched input 'public' expecting {NL, '}', ';'}
-line 6:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-Result: 2 syntax errors
+Result: 0 syntax errors
 
 Testing EnumMissingName.kt...
 line 2:10 mismatched input '(' expecting {NL, 'import', 'constructor', 'by', 'companion', 'init', 'where', 'catch', 'finally', 'out', 'get', 'set', 'dynamic', 'public', 'private', 'protected', 'internal', 'enum', 'sealed', 'annotation', 'data', 'inner', 'tailrec', 'operator', 'inline', 'infix', 'external', 'override', 'abstract', 'final', 'open', 'lateinit', 'vararg', 'noinline', 'crossinline', 'reified', Identifier}
@@ -566,22 +564,18 @@ Result: 0 syntax errors
 Testing ParameterNameMising.kt...
 line 1:13 mismatched input '<' expecting ':'
 line 6:13 mismatched input '<' expecting ':'
-line 6:33 no viable alternative at input 'array(""))'
-line 8:4 no viable alternative at input '42\nx'
-line 8:4 extraneous input 'x' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-Result: 5 syntax errors
+Result: 2 syntax errors
 
 Testing ParameterType.kt...
 line 1:11 mismatched input ')' expecting ':'
 line 2:12 mismatched input '=' expecting ':'
-line 2:15 no viable alternative at input '4)'
 line 5:27 mismatched input ')' expecting ':'
 line 6:16 mismatched input ')' expecting ':'
 line 17:8 extraneous input 'fun' expecting {NL, '(', '{', '+', '-', '++', '--', '!', '::', '?::', '@', RETURN_AT, CONTINUE_AT, BREAK_AT, '@file', 'import', 'object', 'constructor', 'by', 'companion', 'init', 'this', 'super', 'where', 'if', 'when', 'try', 'catch', 'finally', 'for', 'do', 'while', 'throw', 'return', 'continue', 'break', 'out', '@field', '@property', '@get', '@set', 'get', 'set', '@receiver', '@param', '@setparam', '@delegate', 'dynamic', 'public', 'private', 'protected', 'internal', 'enum', 'sealed', 'annotation', 'data', 'inner', 'tailrec', 'operator', 'inline', 'infix', 'external', 'override', 'abstract', 'final', 'open', 'lateinit', 'vararg', 'noinline', 'crossinline', 'reified', QUOTE_OPEN, '"""', RealLiteral, LongLiteral, IntegerLiteral, HexLiteral, BinLiteral, BooleanLiteral, 'null', Identifier, LabelReference, LabelDefinition, CharacterLiteral}
 line 18:8 extraneous input 'fun' expecting {NL, '(', '{', '+', '-', '++', '--', '!', '::', '?::', '@', RETURN_AT, CONTINUE_AT, BREAK_AT, '@file', 'import', 'object', 'constructor', 'by', 'companion', 'init', 'this', 'super', 'where', 'if', 'when', 'try', 'catch', 'finally', 'for', 'do', 'while', 'throw', 'return', 'continue', 'break', 'out', '@field', '@property', '@get', '@set', 'get', 'set', '@receiver', '@param', '@setparam', '@delegate', 'dynamic', 'public', 'private', 'protected', 'internal', 'enum', 'sealed', 'annotation', 'data', 'inner', 'tailrec', 'operator', 'inline', 'infix', 'external', 'override', 'abstract', 'final', 'open', 'lateinit', 'vararg', 'noinline', 'crossinline', 'reified', QUOTE_OPEN, '"""', RealLiteral, LongLiteral, IntegerLiteral, HexLiteral, BinLiteral, BooleanLiteral, 'null', Identifier, LabelReference, LabelDefinition, CharacterLiteral}
 line 18:15 no viable alternative at input '(b='
 line 19:8 extraneous input 'fun' expecting {NL, '(', '{', '+', '-', '++', '--', '!', '::', '?::', '@', RETURN_AT, CONTINUE_AT, BREAK_AT, '@file', 'import', 'object', 'constructor', 'by', 'companion', 'init', 'this', 'super', 'where', 'if', 'when', 'try', 'catch', 'finally', 'for', 'do', 'while', 'throw', 'return', 'continue', 'break', 'out', '@field', '@property', '@get', '@set', 'get', 'set', '@receiver', '@param', '@setparam', '@delegate', 'dynamic', 'public', 'private', 'protected', 'internal', 'enum', 'sealed', 'annotation', 'data', 'inner', 'tailrec', 'operator', 'inline', 'infix', 'external', 'override', 'abstract', 'final', 'open', 'lateinit', 'vararg', 'noinline', 'crossinline', 'reified', QUOTE_OPEN, '"""', RealLiteral, LongLiteral, IntegerLiteral, HexLiteral, BinLiteral, BooleanLiteral, 'null', Identifier, LabelReference, LabelDefinition, CharacterLiteral}
-Result: 9 syntax errors
+Result: 8 syntax errors
 
 Testing ParameterType_ERR.kt...
 line 1:12 mismatched input ')' expecting {'(', '@', '@file', 'import', 'constructor', 'by', 'companion', 'init', 'where', 'catch', 'finally', 'out', '@field', '@property', '@get', '@set', 'get', 'set', '@receiver', '@param', '@setparam', '@delegate', 'dynamic', 'public', 'private', 'protected', 'internal', 'enum', 'sealed', 'annotation', 'data', 'inner', 'tailrec', 'operator', 'inline', 'infix', 'external', 'override', 'abstract', 'final', 'open', 'lateinit', 'vararg', 'noinline', 'crossinline', 'reified', Identifier, LabelReference}
@@ -760,18 +754,13 @@ line 8:0 extraneous input '}' expecting {<EOF>, '@', '@file', 'class', 'interfac
 Result: 2 syntax errors
 
 Testing StringTemplates.kt...
-line 13:5 token recognition error at: '$"'
-line 19:25 no viable alternative at input '"foo${bar+map{foo}}sdfsdf'
-line 20:4 extraneous input '"' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
-Result: 2 syntax errors
+line 13:3 token recognition error at: '$"'
+Result: 0 syntax errors
 
 Testing Super.kt...
 line 4:4 no viable alternative at input '\nsuper'
 line 4:4 extraneous input 'super' expecting {<EOF>, '@', '@file', 'class', 'interface', 'fun', 'object', 'val', 'var', 'typealias', '@field', '@property', '@get', '@set', '@receiver', '@param', '@setparam', '@delegate', 'public', 'private', 'internal', 'enum', 'sealed', 'annotation', 'data', 'tailrec', 'operator', 'inline', 'external', 'suspend', 'abstract', 'final', 'open', 'const', LabelReference}
 Result: 2 syntax errors
-
-Testing test.kt...
-Result: 0 syntax errors
 
 Testing TraitConstructor.kt...
 Result: 0 syntax errors
