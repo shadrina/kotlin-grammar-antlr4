@@ -247,7 +247,7 @@ typeParameters
     ;
 
 typeParameter
-    : (varianceAnnotation | REIFIED NL*)? NL* simpleIdentifier (NL* COLON NL* userType)?
+    : (varianceAnnotation | REIFIED)? NL* simpleIdentifier (NL* COLON NL* userType)?
     //varianceAnnotation for classes and interfaces
     //reifiedModifier for inline functions
     ;
@@ -692,16 +692,16 @@ visibilityModifier
     ;
 
 classModifier
-    : (ANNOTATION
-    | DATA
-    | SEALED) NL*
+    : (SEALED
+    | ANNOTATION
+    | DATA) NL*
     ;
 
 functionModifier
     : (TAILREC
     | OPERATOR
-    | EXTERNAL
     | INLINE
+    | EXTERNAL
     | SUSPEND) NL*
     ;
 
@@ -716,25 +716,6 @@ parameterModifier
     | NOINLINE
     | CROSSINLINE) NL*
     ;
-
-/*enumModifier: ENUM NL* ;
-finalModifier: FINAL NL* ;
-constModifier: CONST NL* ;
-protectedModifier: PROTECTED NL* ;
-innerModifier: INNER NL* ;
-infixModifier: INFIX NL* ;
-companionModifier: COMPANION NL* ;
-lateinitModifier: LATEINIT NL* ;
-reifiedModifier: REIFIED NL* ;
-abstractModifier: ABSTRACT NL* ;
-openModifier: OPEN NL* ;
-annotationModifier: ANNOTATION NL* ;
-dataModifier: DATA NL* ;
-overrideModifier: OVERRIDE NL*;
-tailrecModifier: TAILREC NL* ;
-operatorModifier: OPERATOR NL ;
-externalModifier: EXTERNAL NL* ;*/
-
 
 labelDefinition
     : LabelDefinition NL*
