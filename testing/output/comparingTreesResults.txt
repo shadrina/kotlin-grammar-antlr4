@@ -11,7 +11,7 @@ DocCommentOnPackageDirectiveLine.kt: Test passed
 DocCommentsBinding.kt: Test passed
 DoubleColonWhitespaces.kt: Test passed
 DynamicReceiver.kt: Test passed
-DynamicTypes.kt: Test failed
+DynamicTypes.kt: Test passed
 EmptyFile.kt: Test passed
 EnumCommas.kt: Test passed
 EnumEntrySemicolonInlineMember.kt: Test passed
@@ -43,10 +43,10 @@ NotIsAndNotIn.kt: Test passed
 ObjectLiteralAsStatement.kt: Test passed
 Properties.kt: Test failed
 PropertyInvokes.kt: Test passed
-QuotedIdentifiers.kt: Test failed
+QuotedIdentifiers.kt: Test passed
 SemicolonAfterIf.kt: Test passed
 TraitConstructor.kt: Test passed
 TypeAlias.kt: Test passed
 TypeConstraints.kt: Test passed
 
-Number of passed tests: 43
+Number of passed tests: 45
