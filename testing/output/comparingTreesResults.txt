@@ -49,4 +49,4 @@ TraitConstructor.kt:                  Test passed
 TypeAlias.kt:                         Test passed
 TypeConstraints.kt:                   Test passed
 
-Number of passed tests: 50
+Number of passed tests: 50/50
