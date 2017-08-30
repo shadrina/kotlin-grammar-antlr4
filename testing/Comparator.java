@@ -61,7 +61,8 @@ public class Comparator {
 
                 if (ANTLRnext == ANTLRtree.getChildCount() && PSInext == PSItree.getChildCount()) return result;
 
-                if (ANTLRnext == ANTLRtree.getChildCount()) return false;
+                if (ANTLRnext == ANTLRtree.getChildCount())
+                    return false;
                 ParseTree ANTLRchild = ANTLRtree.getChild(ANTLRnext);
                 if (ANTLR_isRedundantRule(ANTLRchild)) {
                     for (; redundantRuleNextChild < ANTLRchild.getChildCount(); redundantRuleNextChild++)
@@ -81,7 +82,8 @@ public class Comparator {
                     ANTLRchild = ANTLRchild.getChild(i);
                 }
 
-                if (PSInext == PSItree.getChildCount()) return false;
+                if (PSInext == PSItree.getChildCount())
+                    return false;
                 ParserTree PSIchild = PSItree.getChild(PSInext);
                 while (PSI_getRelevantChildCount(PSIchild) == 1) {
                     int i = 0;
@@ -175,6 +177,8 @@ public class Comparator {
 
     private static boolean PSI_isList(ParserTree tree) throws Exception {
         if (tree.getRuleName().equals("KDoc")) return true;
+        if (tree.getRuleName().equals("LABEL_QUALIFIER")) return true;
+        if (tree.getChildCount() == 2 && tree.getChild(1).getRuleName().equals("LABEL_QUALIFIER")) return true;
         int childCount = PSI_getRelevantChildCount(tree);
         if (childCount == 0) return true;
         if (childCount == 1) {

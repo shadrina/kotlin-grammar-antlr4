@@ -56,6 +56,7 @@ public class TreesTest {
                 "PropertyInvokes.kt",
                 "QuotedIdentifiers.kt",
                 "SemicolonAfterIf.kt",
+                "SimpleExpressions.kt",
                 "TraitConstructor.kt",
                 "TypeAlias.kt",
                 "TypeConstraints.kt"
