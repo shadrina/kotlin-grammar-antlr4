@@ -227,7 +227,7 @@ multiVariableDeclaration
     ;
 
 variableDeclaration
-    : annotations* simpleIdentifier (COLON type)?
+    : simpleIdentifier (COLON type)?
     ;
 
 getter
@@ -366,7 +366,7 @@ equality
     ;
 
 comparison
-    : infixOperation (comparisonOperator NL* infixOperation)*
+    : infixOperation (comparisonOperator NL* infixOperation)?
     ;
 
 infixOperation
@@ -456,7 +456,7 @@ primaryExpression
     : parenthesizedExpression
     | literalConstant
     | stringLiteral
-    | identifier
+    | simpleIdentifier
     | functionLiteral
     | objectLiteral
     | thisExpression
@@ -612,8 +612,7 @@ doWhileExpression
 
 jumpExpression
     : THROW NL* expression
-    | RETURN NL* expression?
-    | RETURN_AT expression?
+    | (RETURN | RETURN_AT) expression?
     | CONTINUE | CONTINUE_AT
     | BREAK | BREAK_AT
     ;

@@ -381,7 +381,9 @@ Inside_QUOTE_OPEN: QUOTE_OPEN -> pushMode(LineString), type(QUOTE_OPEN) ;
 Inside_TRIPLE_QUOTE_OPEN: TRIPLE_QUOTE_OPEN -> pushMode(MultiLineString), type(TRIPLE_QUOTE_OPEN) ;
 
 Inside_VAL: VAL -> type(VAL) ;
-Inside_VAR: VAR ->type(VAR) ;
+Inside_VAR: VAR -> type(VAR) ;
+Inside_OBJECT: OBJECT -> type(OBJECT) ;
+Inside_SUPER: SUPER -> type(SUPER) ;
 Inside_VARARG: VARARG -> type(VARARG) ;
 Inside_NOINLINE: NOINLINE -> type(NOINLINE) ;
 Inside_CROSSINLINE: CROSSINLINE -> type(CROSSINLINE) ;
@@ -493,7 +495,7 @@ StrExpr_RCURL: RCURL -> popMode, type(RCURL) ;
 StrExpr_LPAREN: LPAREN -> pushMode(Inside), type(LPAREN) ;
 StrExpr_LSQUARE: LSQUARE -> pushMode(Inside), type(LSQUARE) ;
 
-StrExpr_LCURL: LCURL -> type(LCURL) ;
+StrExpr_LCURL: LCURL -> pushMode(StringExpression), type(LCURL) ;
 StrExpr_DOT: DOT -> type(DOT) ;
 StrExpr_COMMA: COMMA  -> type(COMMA) ;
 StrExpr_MULT: MULT -> type(MULT) ;
