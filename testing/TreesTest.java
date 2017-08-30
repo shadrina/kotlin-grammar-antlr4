@@ -68,6 +68,6 @@ public class TreesTest {
                 if (Comparator.testFile(fileName.replace(".kt", "")))
                     passedTestsCount++;
         }
-        System.out.println("\nNumber of passed tests: " + passedTestsCount);
+        System.out.println("\nNumber of passed tests: " + passedTestsCount + "/50");
     }
 }
