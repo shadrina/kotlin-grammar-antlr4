@@ -53,7 +53,6 @@ public class TreesTest {
                 "NewLinesValidOperations.kt",
                 "NotIsAndNotIn.kt",
                 "ObjectLiteralAsStatement.kt",
-                "Properties.kt",
                 "PropertyInvokes.kt",
                 "QuotedIdentifiers.kt",
                 "SemicolonAfterIf.kt",
@@ -64,7 +63,7 @@ public class TreesTest {
 
         int passedTestsCount = 0;
         for (String fileName : correctFiles) {
-                System.out.print(fileName + ": ");
+                System.out.format("%-38s", (fileName + ":"));
                 if (Comparator.testFile(fileName.replace(".kt", "")))
                     passedTestsCount++;
         }

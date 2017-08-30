@@ -15,7 +15,7 @@ public class Comparator {
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws Exception {
-        testFile("test");
+        testFile("NewLinesValidOperations");
     }
 
     public static boolean testFile(String fileName) throws Exception {
@@ -39,10 +39,12 @@ public class Comparator {
 
     private static boolean compareTrees(ParseTree ANTLRtree, ParserTree PSItree) throws Exception {
 
-        //DOT_QUALIFIED_EXPRESSION is a left-recursive rule
-        //it is impossible to recreate it using ANTLR
-        if (ANTLR_getRuleName(ANTLRtree).equals("Identifier")
-                && PSItree.getRuleName().equals("DOT_QUALIFIED_EXPRESSION")) return true;
+        //DOT_QUALIFIED_EXPRESSION and USER_TYPE are left-recursive rules
+        //it is impossible to recreate them using ANTLR
+        if (ANTLR_getRuleName(ANTLRtree).equals("Identifier") && PSItree.getRuleName().equals("DOT_QUALIFIED_EXPRESSION"))
+            return true;
+        if (ANTLR_getRuleName(ANTLRtree).equals("UserType") && PSItree.getRuleName().equals("USER_TYPE"))
+            return true;
 
         boolean result = true;
         int ANTLRtreeChildCount = ANTLR_getRelevantChildCount(ANTLRtree);
@@ -113,8 +115,12 @@ public class Comparator {
             if (!ANTLR_isRelevantRule(tree.getChild(i))) childCount--;
             if (ANTLR_isRedundantRule(tree.getChild(i)))
                 childCount += -1 + ANTLR_getRelevantChildCount(tree.getChild(i));
-            if (tree.getChild(i).getChildCount() == 0 && ((TerminalNodeImpl)tree.getChild(i)).getText().contains("?::"))
+            if (tree.getChild(i).getChildCount() == 0 && ((TerminalNodeImpl)tree.getChild(i)).getText().equals("?::"))
                 childCount++;
+            if (i < tree.getChildCount() - 1 && tree.getChild(i).getChildCount() == 0
+                    && ((TerminalNodeImpl)tree.getChild(i)).getText().equals("?")
+                    && ((TerminalNodeImpl)tree.getChild(i + 1)).getText().equals("."))
+                childCount--;
         }
         return childCount;
     }
@@ -146,17 +152,21 @@ public class Comparator {
                     && !node.getText().equals("external");
         }
         return     !ANTLR_getRuleName(tree).contains("Semi")
-                && !ANTLR_getRuleName(tree).contains("Modifier");
+                && !ANTLR_getRuleName(tree).contains("Modifier")
+                && !ANTLR_getRuleName(tree).equals("Annotations")
+                && !ANTLR_getRuleName(tree).equals("AnnotationList");
     }
 
     private static boolean ANTLR_isRedundantRule(ParseTree tree) throws Exception {
         String ruleName = ANTLR_getRuleName(tree);
-        return     ruleName.equals("VariableDeclaration")
-                || ruleName.equals("Parameter")
+        return    (ruleName.equals("VariableDeclaration") && !ANTLR_getRuleName(tree.getParent()).equals("MultiVariableDeclaration"))
+                ||(ruleName.equals("Parameter")           && !ANTLR_getRuleName(tree.getParent()).equals("FunctionTypeParameters"))
                 || ruleName.equals("FunctionBody")
                 || ruleName.equals("FunctionType")
                 || ruleName.equals("TypeConstraints")
-                || ruleName.equals("EnumEntries");
+                || ruleName.equals("EnumEntries")
+                || ruleName.equals("MemberAccessOperator")
+                || ruleName.equals("AsExpressionTail");
     }
 
     private static String ANTLR_getRuleName(ParseTree tree) throws Exception {
