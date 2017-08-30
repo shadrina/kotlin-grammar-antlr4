@@ -44,8 +44,9 @@ ObjectLiteralAsStatement.kt:          Test passed
 PropertyInvokes.kt:                   Test passed
 QuotedIdentifiers.kt:                 Test passed
 SemicolonAfterIf.kt:                  Test passed
+SimpleExpressions.kt:                 Test passed
 TraitConstructor.kt:                  Test passed
 TypeAlias.kt:                         Test passed
 TypeConstraints.kt:                   Test passed
 
-Number of passed tests: 49
+Number of passed tests: 50
