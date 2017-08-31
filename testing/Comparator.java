@@ -94,6 +94,8 @@ public class Comparator {
         return false;
     }
 
+    //if the PSI rule is left-recursive, that is impossible to recreate it using ANTLR
+    //so we can assume that it match with its ANTLR-alternative
     private static boolean checkIncomparableRules(ParseTree ANTLRtree, ParserTree PSItree) throws Exception {
         return     ANTLR_getRuleName(ANTLRtree).equals("Identifier") && PSItree.getRuleName().equals("DOT_QUALIFIED_EXPRESSION")
                 || ANTLR_getRuleName(ANTLRtree).equals("UserType")   && PSItree.getRuleName().equals("USER_TYPE");
@@ -121,10 +123,10 @@ public class Comparator {
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!ANTLR_isRelevantRule(tree.getChild(i)))  childCount--;
             if (ANTLR_isRedundantRule(tree.getChild(i)))  childCount += -1 + ANTLR_getRelevantChildCount(tree.getChild(i));
+            //considering "?::" for two tokens
             if (tree.getChild(i).getText().equals("?::")) childCount++;
-            if (i < tree.getChildCount() - 1
-                    && tree.getChild(i).getText().equals("?")
-                    && tree.getChild(i + 1).getText().equals("."))
+            //considering "?" "." for one token
+            if (i < tree.getChildCount() - 1 && tree.getChild(i).getText().equals("?") && tree.getChild(i + 1).getText().equals("."))
                 childCount--;
         }
         return childCount;
@@ -184,6 +186,7 @@ public class Comparator {
     }
 
     private static boolean PSI_isList(ParserTree tree) throws Exception {
+        //considering LABEL_QUALIFIER for one token
         if (tree.getRuleName().equals("LABEL_QUALIFIER")) return true;
         int childCount = PSI_getRelevantChildCount(tree);
         if (childCount == 0) return true;
@@ -209,6 +212,7 @@ public class Comparator {
                 && !ruleName.equals("KDoc")
                 && !ruleName.equals("<empty list>")
                 && !ruleName.equals("MODIFIER_LIST")
+                //considering empty block for irrelevant rule
                 && !(ruleName.equals("BLOCK") && tree.getChild(0).getRuleName().equals("<empty list>"))
                 && !tree.getToken().getTokenType().equals("SEMICOLON")
                 && (tree.getChildCount() != 1 || PSI_isRelevantRule(tree.getChild(0)));
