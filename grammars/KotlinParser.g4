@@ -15,11 +15,11 @@ parser grammar KotlinParser;
 options { tokenVocab = KotlinLexer; }
 
 kotlinFile
-    : NL* fileAnnotation? packageHeader? importDirective? topLevelObject* EOF
+    : NL* fileAnnotation? packageHeader importDirective topLevelObject* EOF
     ;
 
 script
-    : NL* fileAnnotation? packageHeader? importDirective? (expression semi?)* EOF
+    : NL* fileAnnotation? packageHeader importDirective (expression semi?)* EOF
     ;
 
 fileAnnotation
@@ -27,11 +27,11 @@ fileAnnotation
     ;
 
 packageHeader
-    : PACKAGE identifier semi?
+    : (PACKAGE identifier semi?)?
     ;
 
 importDirective
-    : importHeader+
+    : importHeader*
     ;
 
 importHeader
@@ -253,7 +253,7 @@ typeParameter
     ;
 
 type:
-    annotations* (parenthesizedType | nullableType | typeReference) (NL* DOT NL* functionType)?
+    (annotations | SUSPEND NL*)*  (parenthesizedType | nullableType | typeReference) (NL* DOT NL* functionType)?
     ;
 
 parenthesizedType
