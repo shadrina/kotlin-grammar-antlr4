@@ -29,6 +29,7 @@ ExtensionsWithQNReceiver.kt:          Test passed
 FloatingPointLiteral.kt:              Test passed
 FunctionCalls.kt:                     Test passed
 FunctionLiterals.kt:                  Test passed
+FunctionsWithoutName.kt:              Test passed
 FunctionTypes.kt:                     Test passed
 IfWithPropery.kt:                     Test passed
 Imports.kt:                           Test passed
@@ -51,9 +52,11 @@ QuotedIdentifiers.kt:                 Test passed
 SemicolonAfterIf.kt:                  Test passed
 SimpleClassMembers.kt:                Test passed
 SimpleExpressions.kt:                 Test passed
+SimpleModifiers.kt:                   Test passed
+SoftKeywords.kt:                      Test passed
 SoftKeywordsInTypeArguments.kt:       Test passed
 TraitConstructor.kt:                  Test passed
 TypeAlias.kt:                         Test passed
 TypeConstraints.kt:                   Test passed
 
-Number of passed tests: 57
+Number of passed tests: 60
