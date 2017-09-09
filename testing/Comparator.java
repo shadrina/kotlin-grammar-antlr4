@@ -138,29 +138,7 @@ public class Comparator {
                 && !nodeText.equals("\n")
                 && !nodeText.equals(";")
                 && !nodeText.equals("<EOF>")
-                //skipping modifiers
-                && !nodeText.equals("enum")
-                && !nodeText.equals("final")
-                && !nodeText.equals("const")
-                && !nodeText.equals("protected")
-                && !nodeText.equals("inner")
-                && !nodeText.equals("infix")
-                && !nodeText.equals("companion")
-                && !nodeText.equals("lateinit")
-                && !nodeText.equals("reified")
-                && !nodeText.equals("abstract")
-                && !nodeText.equals("open")
-                && !nodeText.equals("annotation")
-                && !nodeText.equals("data")
-                && !nodeText.equals("override")
-                && !nodeText.equals("tailrec")
-                && !nodeText.equals("operator")
-                && !nodeText.equals("external")
-                //
-                && !ANTLR_getRuleName(tree).contains("Semi")
-                && !ANTLR_getRuleName(tree).contains("Modifier")
-                && !ANTLR_getRuleName(tree).equals("Annotations")
-                && !ANTLR_getRuleName(tree).equals("AnnotationList");
+                && !ANTLR_getRuleName(tree).contains("Semi");
     }
 
     private static boolean ANTLR_isRedundantRule(ParseTree tree) throws Exception {
@@ -210,12 +188,9 @@ public class Comparator {
         return     !ruleName.equals("PsiWhiteSpace")
                 && !ruleName.equals("PsiComment")
                 && !ruleName.equals("KDoc")
-                && !ruleName.equals("<empty list>")
-                && !ruleName.equals("MODIFIER_LIST")
                 //considering empty block for irrelevant rule
                 && !(ruleName.equals("BLOCK") && tree.getChild(0).getRuleName().equals("<empty list>"))
-                && !tree.getToken().getTokenType().equals("SEMICOLON")
-                && (tree.getChildCount() != 1 || PSI_isRelevantRule(tree.getChild(0)));
+                && !tree.getToken().getTokenType().equals("SEMICOLON");
     }
 
 }

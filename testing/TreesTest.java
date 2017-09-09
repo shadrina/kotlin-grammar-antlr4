@@ -13,9 +13,11 @@ public class TreesTest {
                 "AnonymousInitializer.kt",
                 "BabySteps.kt",
                 "ByClauses.kt",
+                "CallsInWhen.kt",
                 "CallWithManyClosures.kt",
                 "CommentsBindingInLambda.kt",
                 "CommentsBindingInStatementBlock.kt",
+                "Constructors.kt",
                 "destructuringInLambdas.kt",
                 "DocCommentAfterFileAnnotations.kt",
                 "DocCommentForFirstDeclaration.kt",
@@ -34,8 +36,10 @@ public class TreesTest {
                 "EnumShortCommas.kt",
                 "EnumShortWithOverload.kt",
                 "EOLsInComments.kt",
+                "EOLsOnRollback.kt",
                 "ExtensionsWithQNReceiver.kt",
                 "FloatingPointLiteral.kt",
+                "FunctionCalls.kt",
                 "FunctionLiterals.kt",
                 "FunctionTypes.kt",
                 "IfWithPropery.kt",
@@ -46,6 +50,7 @@ public class TreesTest {
                 "LineCommentAfterFileAnnotations.kt",
                 "LineCommentForFirstDeclaration.kt",
                 "LineCommentsInBlock.kt",
+                "LocalDeclarations",
                 "LongPackageName.kt",
                 "ModifierAsSelector.kt",
                 "NamedClassObject.kt",
@@ -56,7 +61,9 @@ public class TreesTest {
                 "PropertyInvokes.kt",
                 "QuotedIdentifiers.kt",
                 "SemicolonAfterIf.kt",
+                "SimpleClassMembers.kt",
                 "SimpleExpressions.kt",
+                "SoftKeywordsInTypeArguments.kt",
                 "TraitConstructor.kt",
                 "TypeAlias.kt",
                 "TypeConstraints.kt"
@@ -68,6 +75,6 @@ public class TreesTest {
                 if (Comparator.testFile(fileName.replace(".kt", "")))
                     passedTestsCount++;
         }
-        System.out.println("\nNumber of passed tests: " + passedTestsCount + "/50");
+        System.out.println("\nNumber of passed tests: " + passedTestsCount);
     }
 }
