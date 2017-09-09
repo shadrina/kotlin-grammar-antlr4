@@ -43,51 +43,28 @@ importAlias
     ;
 
 topLevelObject
-    : (topClassDeclaration
-    | topFunctionDeclaration
-    | topObjectDeclaration
-    | topPropertyDeclaration
+    : (classDeclaration
+    | functionDeclaration
+    | objectDeclaration
+    | propertyDeclaration
     | typeAlias) semi?
     ;
 
-topClassDeclaration
-    : (annotations | visibilityModifier | inheritanceModifier | classModifier)* classDeclaration
-    | ENUM NL* (annotations | visibilityModifier | FINAL NL*)* enumClassDeclaration
-    | (annotations | visibilityModifier | FINAL NL*)* ENUM NL* enumClassDeclaration
-    ;
-
-topFunctionDeclaration
-    : (annotations | visibilityModifier | functionModifier)* functionDeclaration
-    ;
-
-topObjectDeclaration
-    : (annotations | visibilityModifier | FINAL NL*)* objectDeclaration
-    ;
-
-topPropertyDeclaration
-    : (annotations | visibilityModifier | CONST NL*)* propertyDeclaration
-    ;
-
 typeAlias
-    : (annotations | visibilityModifier)* TYPE_ALIAS NL* simpleIdentifier (NL* typeParameters)? NL* ASSIGNMENT NL* type
+    : modifierList? TYPE_ALIAS NL* simpleIdentifier (NL* typeParameters)? NL* ASSIGNMENT NL* type
     ;
 
 classDeclaration
-    : (CLASS | INTERFACE) NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
-    (NL* typeConstraints)? (NL* classBody)?
-    ;
-
-enumClassDeclaration
-    : CLASS NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
-    (NL* typeConstraints)? (NL* enumClassBody)?
+    : modifierList? (CLASS | INTERFACE) NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
+    (NL* typeConstraints)? (NL* classBody | NL* enumClassBody)?
     ;
 
 primaryConstructor
-    : ((annotations | visibilityModifier | PROTECTED NL*)* CONSTRUCTOR NL*)? LPAREN (classParameter (COMMA classParameter)*)? RPAREN
+    : modifierList? (CONSTRUCTOR NL*)? LPAREN (classParameter (COMMA classParameter)*)? RPAREN
     ;
 
 classParameter
-    : (annotations | parameterModifier | OVERRIDE NL*)* (VAL | VAR)? simpleIdentifier COLON type (ASSIGNMENT expression)?
+    : modifierList? (VAL | VAR)? simpleIdentifier COLON type (ASSIGNMENT expression)?
     ;
 
 delegationSpecifiers
@@ -113,42 +90,21 @@ classBody
     ;
 
 classMemberDeclaration
-    : (nestedClassDeclaration
-    | nestedEnumClassDeclaration
-    | memberFunctionDeclaration
-    | memberObjectDeclaration
-    | memberPropertyDeclaration
+    : (classDeclaration
+    | functionDeclaration
+    | objectDeclaration
+    | companionObject
+    | propertyDeclaration
     | anonymousInitializer
-    | secondaryConstructor) semi?
-    ;
-
-nestedClassDeclaration
-    : (annotations | visibilityModifier | PROTECTED NL* | inheritanceModifier | classModifier | INNER NL*)*
-    classDeclaration
-    ;
-
-nestedEnumClassDeclaration
-    : ENUM NL* (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)* enumClassDeclaration
-    | (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)* ENUM NL* enumClassDeclaration
-    ;
-
-memberFunctionDeclaration
-    : (annotations | visibilityModifier | PROTECTED NL* | inheritanceModifier | functionModifier | OVERRIDE NL* | INFIX NL*)*
-    functionDeclaration
-    ;
-
-memberObjectDeclaration
-    : (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)* (objectDeclaration | companionObject)
+    | secondaryConstructor
+    | typeAlias) semi?
     ;
 
 companionObject
-    : COMPANION NL* (annotations | visibilityModifier | PROTECTED NL* | FINAL NL*)*
-    OBJECT (NL* simpleIdentifier)? (NL* COLON NL* delegationSpecifiers)? (NL* classBody)?
-    ;
-
-memberPropertyDeclaration
-    : (annotations | visibilityModifier | PROTECTED NL* | inheritanceModifier | OVERRIDE NL* | LATEINIT NL*)*
-    propertyDeclaration
+    : modifierList? COMPANION NL* modifierList? OBJECT
+    (NL* simpleIdentifier)?
+    (NL* COLON NL* delegationSpecifiers)?
+    (NL* classBody)?
     ;
 
 anonymousInitializer
@@ -156,8 +112,7 @@ anonymousInitializer
     ;
 
 secondaryConstructor
-    : (annotations | visibilityModifier | PROTECTED NL*)*
-    CONSTRUCTOR NL* functionValueParameters (NL* COLON NL* constructorDelegationCall)? NL* block
+    : modifierList? CONSTRUCTOR NL* functionValueParameters (NL* COLON NL* constructorDelegationCall)? NL* block
     ;
 
 constructorDelegationCall
@@ -174,25 +129,18 @@ enumEntries
     ;
 
 enumEntry
-    : simpleIdentifier (NL* valueArguments)? (NL* enumEntryBody)? (NL* COMMA)?
-    ;
-
-enumEntryBody
-    : LCURL NL* enumEntryBodyMembers* NL* RCURL
-    ;
-
-enumEntryBodyMembers
-    : (nestedClassDeclaration
-    | nestedEnumClassDeclaration
-    | memberFunctionDeclaration
-    | memberObjectDeclaration
-    | memberPropertyDeclaration
-    | anonymousInitializer) semi?
+    : simpleIdentifier (NL* valueArguments)? (NL* classBody)? (NL* COMMA)?
     ;
 
 functionDeclaration
-    : FUN (NL* typeParameters)? NL* (type NL* DOT)? (NL* identifier)? NL*
-    functionValueParameters (NL* COLON NL* type)? (NL* typeConstraints)? (NL* functionBody)?
+    : modifierList? FUN
+    (NL* type NL* DOT)?
+    (NL* typeParameters)?
+    (NL* identifier)?
+    NL* functionValueParameters
+    (NL* COLON NL* type)?
+    (NL* typeConstraints)?
+    (NL* functionBody)?
     ;
 
 functionValueParameters
@@ -200,7 +148,7 @@ functionValueParameters
     ;
 
 functionValueParameter
-    : (annotations | parameterModifier)* parameter (ASSIGNMENT expression)?
+    : modifierList? parameter (ASSIGNMENT expression)?
     ;
 
 parameter
@@ -213,13 +161,21 @@ functionBody
     ;
 
 objectDeclaration
-    : OBJECT (NL* simpleIdentifier)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)? (NL* classBody)?
+    : modifierList? OBJECT
+    NL* simpleIdentifier
+    (NL* primaryConstructor)?
+    (NL* COLON NL* delegationSpecifiers)?
+    (NL* classBody)?
     ;
 
 propertyDeclaration
-    : (VAL | VAR) (NL* typeParameters)? (NL* type NL* DOT)?
-    (NL* (multiVariableDeclaration | variableDeclaration)) (NL* typeConstraints)?
-    (NL* (BY | ASSIGNMENT) NL* expression)? (semi? (getter? NL* setter? | setter? NL* getter?))
+    : modifierList? (VAL | VAR)
+    (NL* typeParameters)?
+    (NL* type NL* DOT)?
+    (NL* (multiVariableDeclaration | variableDeclaration))
+    (NL* typeConstraints)?
+    (NL* (BY | ASSIGNMENT) NL* expression)?
+    semi? (getter? (NL* setter)? | setter? (NL* getter)?)
     ;
 
 multiVariableDeclaration
@@ -231,15 +187,13 @@ variableDeclaration
     ;
 
 getter
-    : (annotations | visibilityModifier | PROTECTED NL*)* GETTER
-    | (annotations | visibilityModifier | PROTECTED NL*)* GETTER NL* LPAREN RPAREN (NL* COLON NL* type)? NL*
-    (block | ASSIGNMENT NL* expression)
+    : modifierList? GETTER
+    | modifierList? GETTER NL* LPAREN RPAREN (NL* COLON NL* type)? NL* (block | ASSIGNMENT NL* expression)
     ;
 
 setter
-    : (annotations | visibilityModifier | PROTECTED NL*)* SETTER
-    | (annotations | visibilityModifier | PROTECTED NL*)* SETTER NL* LPAREN (annotations | parameterModifier)*
-      (simpleIdentifier | parameter) RPAREN NL* functionBody
+    : modifierList? SETTER
+    | modifierList? SETTER NL* LPAREN (annotations | parameterModifier)* (simpleIdentifier | parameter) RPAREN NL* functionBody
     ;
 
 typeParameters
@@ -247,13 +201,11 @@ typeParameters
     ;
 
 typeParameter
-    : (varianceAnnotation | REIFIED)? NL* simpleIdentifier (NL* COLON NL* userType)?
-    //varianceAnnotation for classes and interfaces
-    //reifiedModifier for inline functions
+    : modifierList? NL* simpleIdentifier (NL* COLON NL* type)?
     ;
 
 type:
-    (annotations | SUSPEND NL*)*  (parenthesizedType | nullableType | typeReference) (NL* DOT NL* functionType)?
+    modifierList? (parenthesizedType | nullableType | typeReference) (NL* DOT NL* functionType)?
     ;
 
 parenthesizedType
@@ -291,10 +243,6 @@ simpleUserTypeParameter
     :varianceAnnotation? type | MULT
     ;
 
-varianceAnnotation
-    : IN | OUT
-    ;
-
 functionType
     : functionTypeParameters NL* ARROW (NL* type)?
     ;
@@ -326,23 +274,11 @@ statement
     ;
 
 declaration
-    : localClassDeclaration
-    | localFunctionDeclaration
-    | localPropertyDeclaration
-    ;
-
-localClassDeclaration
-    : (labelDefinition | annotations | ABSTRACT NL* | OPEN NL* | ANNOTATION NL* | DATA NL*)*
-      classDeclaration
-    ;
-
-localFunctionDeclaration
-    : (labelDefinition | annotations | TAILREC NL* | OPERATOR NL* | EXTERNAL NL*)*
-      functionDeclaration
-    ;
-
-localPropertyDeclaration
-    : (labelDefinition | annotations)* propertyDeclaration
+    : labelDefinition*
+    ( classDeclaration
+    | functionDeclaration
+    | propertyDeclaration
+    | typeAlias)
     ;
 
 assignment
@@ -445,7 +381,11 @@ valueArguments
     ;
 
 typeArguments
-    : LANGLE NL* type (NL* COMMA type)* NL* RANGLE
+    : LANGLE NL* typeProjection (NL* COMMA typeProjection)* NL* RANGLE
+    ;
+
+typeProjection
+    : type | MULT
     ;
 
 valueArgument
@@ -518,7 +458,7 @@ multiLineStringExpression
 functionLiteral
     : annotations*
     ( LCURL NL* statements? NL* RCURL
-    | LCURL NL* lambdaParameters NL* ARROW NL* statements? NL* RCURL )
+    | LCURL NL* lambdaParameters? NL* ARROW NL* statements? NL* RCURL )
     ;
 
 lambdaParameters
@@ -683,37 +623,74 @@ postfixUnaryOperator
 memberAccessOperator
     : DOT | QUEST DOT
     ;
+    
+modifierList
+    : (annotations | modifier)+
+    ;
 
-visibilityModifier
-    : (PUBLIC
-    | PRIVATE
-    | INTERNAL) NL*
+modifier
+    : (classModifier
+    | memberModifier
+    | visibilityModifier
+    | varianceAnnotation
+    | functionModifier
+    | propertyModifier
+    | inheritanceModifier
+    | parameterModifier
+    | typeParameterModifier) NL*
     ;
 
 classModifier
-    : (SEALED
+    : ENUM
+    | SEALED
     | ANNOTATION
-    | DATA) NL*
+    | DATA
+    | INNER
+    ;
+
+memberModifier
+    : OVERRIDE
+    | LATEINIT
+    ;
+
+visibilityModifier
+    : PUBLIC
+    | PRIVATE
+    | INTERNAL
+    | PROTECTED
+    ;
+
+varianceAnnotation
+    : IN | OUT
     ;
 
 functionModifier
-    : (TAILREC
+    : TAILREC
     | OPERATOR
+    | INFIX
     | INLINE
     | EXTERNAL
-    | SUSPEND) NL*
+    | SUSPEND
+    ;
+
+propertyModifier
+    : CONST
     ;
 
 inheritanceModifier
-    : (ABSTRACT
+    : ABSTRACT
     | FINAL
-    | OPEN) NL*
+    | OPEN
     ;
 
 parameterModifier
-    : (VARARG
+    : VARARG
     | NOINLINE
-    | CROSSINLINE) NL*
+    | CROSSINLINE
+    ;
+
+typeParameterModifier
+    : REIFIED
     ;
 
 labelDefinition
@@ -792,6 +769,9 @@ simpleIdentifier
     | SETTER
     | VARARG
     | WHERE
+    //strong keywords
+    | CONST
+    | SUSPEND
     ;
 
 semi: NL+ | SEMICOLON | SEMICOLON NL+;
