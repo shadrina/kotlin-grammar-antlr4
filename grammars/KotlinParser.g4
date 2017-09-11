@@ -50,17 +50,20 @@ topLevelObject
     | typeAlias) semi?
     ;
 
-typeAlias
-    : modifierList? TYPE_ALIAS NL* simpleIdentifier (NL* typeParameters)? NL* ASSIGNMENT NL* type
-    ;
-
 classDeclaration
-    : modifierList? (CLASS | INTERFACE) NL* simpleIdentifier (NL* typeParameters)? (NL* primaryConstructor)? (NL* COLON NL* delegationSpecifiers)?
-    (NL* typeConstraints)? (NL* classBody | NL* enumClassBody)?
+    : modifierList? (CLASS | INTERFACE) NL* simpleIdentifier
+    (NL* typeParameters)? (NL* primaryConstructor)?
+    (NL* COLON NL* delegationSpecifiers)?
+    (NL* typeConstraints)?
+    (NL* classBody | NL* enumClassBody)?
     ;
 
 primaryConstructor
-    : modifierList? (CONSTRUCTOR NL*)? LPAREN (classParameter (COMMA classParameter)*)? RPAREN
+    : modifierList? (CONSTRUCTOR NL*)? classParameters
+    ;
+
+classParameters
+    : LPAREN (classParameter (COMMA classParameter)*)? RPAREN
     ;
 
 classParameter
@@ -98,13 +101,6 @@ classMemberDeclaration
     | anonymousInitializer
     | secondaryConstructor
     | typeAlias) semi?
-    ;
-
-companionObject
-    : modifierList? COMPANION NL* modifierList? OBJECT
-    (NL* simpleIdentifier)?
-    (NL* COLON NL* delegationSpecifiers)?
-    (NL* classBody)?
     ;
 
 anonymousInitializer
@@ -168,6 +164,13 @@ objectDeclaration
     (NL* classBody)?
     ;
 
+companionObject
+    : modifierList? COMPANION NL* modifierList? OBJECT
+    (NL* simpleIdentifier)?
+    (NL* COLON NL* delegationSpecifiers)?
+    (NL* classBody)?
+    ;
+
 propertyDeclaration
     : modifierList? (VAL | VAR)
     (NL* typeParameters)?
@@ -196,6 +199,10 @@ setter
     | modifierList? SETTER NL* LPAREN (annotations | parameterModifier)* (simpleIdentifier | parameter) RPAREN NL* functionBody
     ;
 
+typeAlias
+    : modifierList? TYPE_ALIAS NL* simpleIdentifier (NL* typeParameters)? NL* ASSIGNMENT NL* type
+    ;
+
 typeParameters
     : LANGLE NL* typeParameter (NL* COMMA NL* typeParameter)* NL* RANGLE
     ;
@@ -204,8 +211,16 @@ typeParameter
     : modifierList? NL* simpleIdentifier (NL* COLON NL* type)?
     ;
 
-type:
-    modifierList? (parenthesizedType | nullableType | typeReference) (NL* DOT NL* functionType)?
+type
+    : typeModifierList?
+    ( parenthesizedType
+    | nullableType
+    | typeReference
+    | functionType)
+    ;
+
+typeModifierList
+    : (annotations | SUSPEND NL*)+
     ;
 
 parenthesizedType
@@ -217,14 +232,19 @@ nullableType
     ;
 
 typeReference
-    : parenthesizedTypeReference
+    : LPAREN typeReference RPAREN
     | userType
-    | functionType
     | DYNAMIC
     ;
 
-parenthesizedTypeReference
-    : LPAREN typeReference RPAREN
+functionType
+    : (functionTypeReceiver NL* DOT NL*)? functionTypeParameters  NL* ARROW (NL* type)?
+    ;
+
+functionTypeReceiver
+    : parenthesizedType
+    | nullableType
+    | typeReference
     ;
 
 userType
@@ -232,21 +252,10 @@ userType
     ;
 
 simpleUserType
-    : simpleIdentifier (NL* simpleUserTypeParameters)?
+    : simpleIdentifier (NL* typeArguments)?
     ;
 
-simpleUserTypeParameters
-    : LANGLE NL* simpleUserTypeParameter (NL* COMMA NL* simpleUserTypeParameter)* NL* RANGLE
-    ;
-
-simpleUserTypeParameter
-    :varianceAnnotation? type | MULT
-    ;
-
-functionType
-    : functionTypeParameters NL* ARROW (NL* type)?
-    ;
-
+//parameters for functionType
 functionTypeParameters
     : LPAREN (parameter | type)? (COMMA (parameter | type))* RPAREN
     ;
@@ -264,7 +273,7 @@ block
     ;
 
 statements
-    : (statement semi)* statement semi?
+    : ((statement semi)* statement semi?)?
     ;
 
 statement
@@ -341,17 +350,28 @@ asExpressionTail
 prefixUnaryExpression
     : prefixUnaryOperator* postfixUnaryExpression
     | annotations* postfixUnaryExpression
-    | labelDefinition postfixUnaryExpression
     ;
 
 postfixUnaryExpression
     : assignableExpression
-    | assignableExpression (postfixUnaryOperator*
-     | typeArguments? valueArguments? annotatedLambda*
-     | (NL* memberAccessOperator postfixUnaryExpression)+
-     | arrayAccess+)
-    | (LPAREN callableReference RPAREN postfixUnaryOperator+
-     | callableReference)
+    | callExpression
+    | labeledExpression
+    | dotQualifiedExpression
+    | assignableExpression postfixUnaryOperator*
+    | LPAREN callableReference RPAREN postfixUnaryOperator+
+    | callableReference
+    ;
+
+callExpression
+    : assignableExpression typeArguments? valueArguments? annotatedLambda*
+    ;
+
+labeledExpression
+    : labelDefinition postfixUnaryExpression
+    ;
+
+dotQualifiedExpression
+    : assignableExpression (NL* memberAccessOperator postfixUnaryExpression)+
     ;
 
 assignableExpression
@@ -377,7 +397,8 @@ arrayAccess
     ;
 
 valueArguments
-    : LPAREN valueArgument? (COMMA valueArgument)* RPAREN
+    : LPAREN valueArgument? RPAREN
+    | LPAREN valueArgument (COMMA valueArgument)* RPAREN
     ;
 
 typeArguments
@@ -385,7 +406,11 @@ typeArguments
     ;
 
 typeProjection
-    : type | MULT
+    : typeProjectionModifierList? type | MULT
+    ;
+
+typeProjectionModifierList
+    : varianceAnnotation+
     ;
 
 valueArgument
@@ -457,12 +482,12 @@ multiLineStringExpression
 
 functionLiteral
     : annotations*
-    ( LCURL NL* statements? NL* RCURL
-    | LCURL NL* lambdaParameters? NL* ARROW NL* statements? NL* RCURL )
+    ( LCURL NL* statements NL* RCURL
+    | LCURL NL* lambdaParameters NL* ARROW NL* statements NL* RCURL )
     ;
 
 lambdaParameters
-    : lambdaParameter (NL* COMMA NL* lambdaParameter)*
+    : lambdaParameter? (NL* COMMA NL* lambdaParameter)*
     ;
 
 lambdaParameter
