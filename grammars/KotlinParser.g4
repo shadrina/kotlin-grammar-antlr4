@@ -15,11 +15,11 @@ parser grammar KotlinParser;
 options { tokenVocab = KotlinLexer; }
 
 kotlinFile
-    : NL* fileAnnotation? packageHeader importDirective topLevelObject* EOF
+    : NL* fileAnnotation? packageHeader importList topLevelObject* EOF
     ;
 
 script
-    : NL* fileAnnotation? packageHeader importDirective (expression semi?)* EOF
+    : NL* fileAnnotation? packageHeader importList(expression semi?)* EOF
     ;
 
 fileAnnotation
@@ -30,7 +30,7 @@ packageHeader
     : (PACKAGE identifier semi?)?
     ;
 
-importDirective
+importList
     : importHeader*
     ;
 
@@ -228,7 +228,7 @@ parenthesizedType
     ;
 
 nullableType
-    : typeReference NL* QUEST+
+    : (typeReference | parenthesizedType) NL* QUEST+
     ;
 
 typeReference
@@ -424,6 +424,7 @@ primaryExpression
     | simpleIdentifier
     | functionLiteral
     | objectLiteral
+    | collectionLiteral
     | thisExpression
     | superExpression
     | conditionalExpression
@@ -497,6 +498,10 @@ lambdaParameter
 
 objectLiteral
     : OBJECT (NL* COLON NL* delegationSpecifiers)? NL* classBody
+    ;
+
+collectionLiteral
+    : LSQUARE expression? (COMMA expression)* RSQUARE
     ;
 
 thisExpression
