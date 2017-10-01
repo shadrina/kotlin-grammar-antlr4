@@ -2,3 +2,5 @@
 	test 
 	https://github.com/JetBrains/kotlin/blob/master/compiler/testData/psi/NewlinesInParentheses.kt 
 	failed
+
+- Nested comments
