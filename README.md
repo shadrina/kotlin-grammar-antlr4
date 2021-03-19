@@ -1,5 +1,7 @@
 # Kotlin ANTLR4 grammar
 
+The project is no longer supported. Please refer to the [Kotlin Language Specification](https://github.com/Kotlin/kotlin-spec/tree/release/grammar) to get the most relevant Kotlin grammar version. 
+
 ## Project description
 ANTLR4 grammar for Kotlin written only in ANTLR's special syntax. Developed to facilitate the implementation of the language in other projects.  
 
